@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		811D978127F4A08200022B18 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D978027F4A08200022B18 /* ProfileHeaderView.swift */; };
 		81D6561227F33DA40036F469 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D6561127F33DA40036F469 /* AppDelegate.swift */; };
 		81D6561627F33DA40036F469 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D6561527F33DA40036F469 /* ViewController.swift */; };
 		81D6561B27F33DA40036F469 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81D6561A27F33DA40036F469 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		811D978027F4A08200022B18 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		81D6560E27F33DA40036F469 /* Navigation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navigation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81D6561127F33DA40036F469 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81D6561527F33DA40036F469 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -43,6 +45,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		811D977B27F47B8D00022B18 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				811D978027F4A08200022B18 /* ProfileHeaderView.swift */,
+				81D6562727F347D70036F469 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		81D6560527F33DA40036F469 = {
 			isa = PBXGroup;
 			children = (
@@ -62,9 +73,9 @@
 		81D6561027F33DA40036F469 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				811D977B27F47B8D00022B18 /* Profile */,
 				81D6561127F33DA40036F469 /* AppDelegate.swift */,
 				81D6562527F347CA0036F469 /* FeedViewController.swift */,
-				81D6562727F347D70036F469 /* ProfileViewController.swift */,
 				81D6562927F34E640036F469 /* PostViewController.swift */,
 				81D6562F27F454040036F469 /* InfoViewController.swift */,
 				81D6561527F33DA40036F469 /* ViewController.swift */,
@@ -153,6 +164,7 @@
 				81D6562C27F354AC0036F469 /* Post.swift in Sources */,
 				81D6561227F33DA40036F469 /* AppDelegate.swift in Sources */,
 				81D6562A27F34E640036F469 /* PostViewController.swift in Sources */,
+				811D978127F4A08200022B18 /* ProfileHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
