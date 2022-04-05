@@ -8,7 +8,7 @@
 import UIKit
 
 class ProfileHeaderView: UIView {
-    
+
     lazy var fullNameLabel: UILabel = {
         let fullNameLabel = UILabel()
         fullNameLabel.text = "Batman"
@@ -74,6 +74,17 @@ class ProfileHeaderView: UIView {
             statusText = text
         }
     }
+
+    lazy var newButton: UIButton = {
+        let setStatusButton = UIButton()
+        setStatusButton.layer.cornerRadius = 4
+        setStatusButton.translatesAutoresizingMaskIntoConstraints = false
+        setStatusButton.setTitle("New Button", for: .normal)
+        setStatusButton.setTitleColor(.white, for: .normal)
+        setStatusButton.backgroundColor = .systemBlue
+        return setStatusButton
+    }()
+
     /*
      // Only override draw() if you perform custom drawing.
      // An empty implementation adversely affects performance during animation.
