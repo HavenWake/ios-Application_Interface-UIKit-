@@ -11,6 +11,14 @@ class ProfileViewController: UIViewController {
     
     let profileHeaderView = ProfileHeaderView()
     let topView = UIView()
+
+    private lazy var profileTableView: UITableView = {
+        let profileTableView = UITableView()
+        profileTableView.translatesAutoresizingMaskIntoConstraints = false
+        profileTableView.dataSource = self
+        profileTableView.delegate = self
+        return profileTableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,4 +103,14 @@ class ProfileViewController: UIViewController {
      }
      */
     
+}
+
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
 }
