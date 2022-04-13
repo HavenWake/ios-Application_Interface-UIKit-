@@ -23,7 +23,7 @@ class LogInViewController: UIViewController {
         nc.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         nc.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
+    
     // Изменение отступов при появлении клавиатуры
     @objc private func kbdShow(notification: NSNotification) {
         if let kbdSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
@@ -31,12 +31,12 @@ class LogInViewController: UIViewController {
             self.logInScrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbdSize.height, right: 0)
         }
     }
-
+    
     @objc private func kbdHide(notification: NSNotification) {
         self.logInScrollView.contentInset.bottom = .zero
         self.logInScrollView.verticalScrollIndicatorInsets = .zero
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -48,29 +48,29 @@ class LogInViewController: UIViewController {
         self.logInContentView.addSubview(self.logoImageView)
         setupConstraint()
     }
-
+    
     private lazy var logInScrollView: UIScrollView = {
         let logInScrollView = UIScrollView()
         logInScrollView.backgroundColor = .white
         logInScrollView.translatesAutoresizingMaskIntoConstraints = false
         return logInScrollView
-
+        
     }()
-
+    
     private lazy var logInContentView: UIView = {
         let logInContentView = UIView()
         logInContentView.backgroundColor = .white
         logInContentView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return logInContentView
     }()
-
+    
     private lazy var buttonBackgroundImageView: UIImageView = {
         let buttonBackgroundImageView = UIImageView()
         buttonBackgroundImageView.image = UIImage(named: "blue_pixel")
         return buttonBackgroundImageView
     }()
-
+    
     private lazy var logInButton: UIButton = {
         let logInButton = UIButton()
         logInButton.layer.cornerRadius = 10
@@ -89,19 +89,19 @@ class LogInViewController: UIViewController {
         logInButton.clipsToBounds = true
         return logInButton
     }()
-
+    
     @objc func successfulLogin() {
         let profileViewController = ProfileViewController()
         self.navigationController?.pushViewController(profileViewController, animated: true)
     }
-
-
+    
+    
     private lazy var logInTextField: UITextField = {
         let logInTextField = UITextField()
         logInTextField.translatesAutoresizingMaskIntoConstraints = false
         logInTextField.text = " Email or phone"
         logInTextField.backgroundColor = .systemGray6
-        logInTextField.font = UIFont(name: "System", size: 16.0)
+        logInTextField.font = UIFont.systemFont(ofSize: 16)
         logInTextField.textColor = .black
         logInTextField.tintColor = .darkGray
         logInTextField.autocapitalizationType = .none
@@ -111,17 +111,17 @@ class LogInViewController: UIViewController {
         logInTextField.clipsToBounds = true
         return logInTextField
     }()
-
+    
     @objc func loginTextChanged(_ textField: UITextField) {
         logInTextField.textColor = .black
     }
-
+    
     private lazy var passwordTextField: UITextField = {
         let passwordTextField = UITextField()
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordTextField.text = " Password"
         passwordTextField.backgroundColor = .systemGray6
-        passwordTextField.font = UIFont(name: "System", size: 16.0)
+        passwordTextField.font = UIFont.systemFont(ofSize: 16)
         passwordTextField.textColor = .black
         passwordTextField.autocapitalizationType = .none
         passwordTextField.layer.borderWidth = 0.5
@@ -130,11 +130,11 @@ class LogInViewController: UIViewController {
         passwordTextField.clipsToBounds = true
         return passwordTextField
     }()
-
+    
     @objc func passwordTextChanged(_ textField: UITextField) {
         passwordTextField.isSecureTextEntry = true
     }
-
+    
     private lazy var authorizationStackView: UIStackView = {
         let authorizationStackView = UIStackView()
         authorizationStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -149,7 +149,7 @@ class LogInViewController: UIViewController {
         authorizationStackView.insertArrangedSubview(passwordTextField, at: 1)
         return authorizationStackView
     }()
-
+    
     private lazy var logoImageView: UIImageView = {
         let logoImageView = UIImageView()
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -157,8 +157,8 @@ class LogInViewController: UIViewController {
         logoImageView.image = UIImage(named: "logo")
         return logoImageView
     }()
-
-
+    
+    
     private func setupConstraint() {
         //для authorizationStackView
         authorizationStackView.centerXAnchor.constraint(equalTo: self.logInContentView.centerXAnchor).isActive = true
@@ -166,13 +166,13 @@ class LogInViewController: UIViewController {
         authorizationStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         authorizationStackView.trailingAnchor.constraint(equalTo: self.logInContentView.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         authorizationStackView.leadingAnchor.constraint(equalTo: self.logInContentView.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
-
+        
         //для logInScrollView
         logInScrollView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         logInScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         logInScrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         logInScrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-
+        
         //для logInContentView
         logInContentView.leftAnchor.constraint(equalTo: logInScrollView.leftAnchor).isActive = true
         logInContentView.rightAnchor.constraint(equalTo: logInScrollView.rightAnchor).isActive = true
@@ -180,13 +180,13 @@ class LogInViewController: UIViewController {
         logInContentView.bottomAnchor.constraint(equalTo: logInScrollView.bottomAnchor).isActive = true
         logInContentView.widthAnchor.constraint(equalTo: self.logInScrollView.widthAnchor).isActive = true
         logInContentView.heightAnchor.constraint(equalTo: self.logInScrollView.heightAnchor).isActive = true
-
+        
         //Для кнопки залогина
         logInButton.topAnchor.constraint(equalTo: authorizationStackView.bottomAnchor, constant: 16).isActive = true
         logInButton.leadingAnchor.constraint(equalTo: self.logInContentView.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         logInButton.trailingAnchor.constraint(equalTo: self.logInContentView.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         logInButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
+        
         //Для логотипа
         logoImageView.centerXAnchor.constraint(equalTo: logInContentView.centerXAnchor).isActive = true
         logoImageView.topAnchor.constraint(equalTo: logInContentView.safeAreaLayoutGuide.topAnchor, constant: 120).isActive = true
@@ -195,15 +195,15 @@ class LogInViewController: UIViewController {
     }
     
     
-
+    
     /*
      // MARK: - Navigation
-
+     
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
      }
      */
-
+    
 }

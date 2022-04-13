@@ -10,88 +10,40 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     let profileHeaderView = ProfileHeaderView()
-    let topView = UIView()
-
+    let postTableViewCell = PostTableViewCell()
+    var posts: [PostModel] = []
+    
     private lazy var profileTableView: UITableView = {
         let profileTableView = UITableView()
+        posts = fetchData()
         profileTableView.translatesAutoresizingMaskIntoConstraints = false
         profileTableView.dataSource = self
         profileTableView.delegate = self
+        profileTableView.register(PostTableViewCell.self, forCellReuseIdentifier: "postCell")
         return profileTableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .lightGray
-        self.view.addSubview(topView)
-        self.topView.backgroundColor = .white
-        self.view.addSubview(self.profileHeaderView)
-        self.topView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 100)
-        profileHeaderViewSetup()
-        setupConstraints()
+        setupView()
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     override func viewWillLayoutSubviews() {
-
+        
     }
     
-    private func setupConstraints() {
-        //Для profileHeaderView
-        self.profileHeaderView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.profileHeaderView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.profileHeaderView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-        self.profileHeaderView.heightAnchor.constraint(equalToConstant: 220).isActive = true
-
-
-        //Для кнопки установки статуса
-        self.profileHeaderView.setStatusButton.topAnchor.constraint(equalTo: profileHeaderView.avatarImageView.bottomAnchor, constant: 46).isActive = true
-        self.profileHeaderView.setStatusButton.trailingAnchor.constraint(equalTo: profileHeaderView.trailingAnchor, constant: -16).isActive = true
-        self.profileHeaderView.setStatusButton.leadingAnchor.constraint(equalTo: profileHeaderView.leadingAnchor, constant: 16).isActive = true
-        self.profileHeaderView.setStatusButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-        //Для newButton
-        self.profileHeaderView.newButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        self.profileHeaderView.newButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.profileHeaderView.newButton.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+    private func setupView() {
+        view.backgroundColor = .systemGray5
+        self.view.addSubview(self.profileTableView)
+        self.profileTableView.backgroundColor = .systemGray5
         
-        //Для лейбла с именем
-        self.profileHeaderView.fullNameLabel.topAnchor.constraint(equalTo:  profileHeaderView.topAnchor, constant: 27).isActive = true
-        self.profileHeaderView.fullNameLabel.trailingAnchor.constraint(equalTo: profileHeaderView.trailingAnchor, constant: -16).isActive = true
-        self.profileHeaderView.fullNameLabel.leadingAnchor.constraint(equalTo: profileHeaderView.avatarImageView.trailingAnchor, constant: 20).isActive = true
+        let leadingConstraint = self.profileTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
+        let trailingConstraint = self.profileTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        let topConstraint = self.profileTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+        let bottomConstraint = self.profileTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         
-        //Для аватарки
-        self.profileHeaderView.avatarImageView.topAnchor.constraint(equalTo: profileHeaderView.topAnchor, constant: 16).isActive = true
-        self.profileHeaderView.avatarImageView.leadingAnchor.constraint(equalTo: profileHeaderView.leadingAnchor, constant: 16).isActive = true
-        self.profileHeaderView.avatarImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        self.profileHeaderView.avatarImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        //Для лейбла со статусом
-        self.profileHeaderView.statusLabel.bottomAnchor.constraint(equalTo: profileHeaderView.statusTextField.topAnchor, constant: -16).isActive = true
-        self.profileHeaderView.statusLabel.trailingAnchor.constraint(equalTo: profileHeaderView.fullNameLabel.trailingAnchor).isActive = true
-        self.profileHeaderView.statusLabel.leadingAnchor.constraint(equalTo: profileHeaderView.avatarImageView.trailingAnchor, constant: 20).isActive = true
-        
-        //Для текстфилда статуса
-        self.profileHeaderView.statusTextField.bottomAnchor.constraint(equalTo: profileHeaderView.setStatusButton.topAnchor, constant: -16).isActive = true
-        self.profileHeaderView.statusTextField.trailingAnchor.constraint(equalTo: profileHeaderView.trailingAnchor, constant: -16).isActive = true
-        self.profileHeaderView.statusTextField.leadingAnchor.constraint(equalTo: profileHeaderView.avatarImageView.trailingAnchor, constant: 20).isActive = true
-        self.profileHeaderView.statusTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-
-    func profileHeaderViewSetup() {
-        self.profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        self.profileHeaderView.addSubview(self.profileHeaderView.setStatusButton)
-        self.profileHeaderView.addSubview(self.profileHeaderView.fullNameLabel)
-        self.profileHeaderView.addSubview(self.profileHeaderView.avatarImageView)
-        self.profileHeaderView.addSubview(self.profileHeaderView.statusLabel)
-        self.profileHeaderView.addSubview(self.profileHeaderView.statusTextField)
-        self.profileHeaderView.addSubview(self.profileHeaderView.newButton)
-
-        //Настройка тени
-        self.profileHeaderView.layer.shadowOffset.width = 4
-        self.profileHeaderView.layer.shadowOffset.height = 4
-        self.profileHeaderView.layer.shadowRadius = 4
-        self.profileHeaderView.layer.shadowOpacity = 0.7
-        self.profileHeaderView.layer.shadowColor = UIColor.black.cgColor
+        NSLayoutConstraint.activate([topConstraint,leadingConstraint,trailingConstraint,bottomConstraint])
     }
     /*
      // MARK: - Navigation
@@ -104,13 +56,36 @@ class ProfileViewController: UIViewController {
      */
     
 }
-
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "postCell") as! PostTableViewCell
+        let post = posts[indexPath.row]
+        cell.autorLabel.text = post.author
+        cell.pictureImageView.image = UIImage(named: post.image)
+        cell.descriptionLabel.text = post.description
+        cell.likesLabel.text = "Likes: \(post.likes)"
+        cell.viewsLabel.text = "Views: \(post.views)"
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        profileTableView.translatesAutoresizingMaskIntoConstraints = false
+        return profileHeaderView
+    }
+}
+
+extension ProfileViewController {
+    
+    func fetchData() -> [PostModel] {
+        let firstPost = PostModel.init(author: "Sam", description: "Описание первого поста", image: "silentHill", likes: 10, views: 21)
+        let secondPost = PostModel.init(author: "John", description: "Описание второго поста", image: "spiderMan", likes: 342, views: 12)
+        let thirdPost = PostModel.init(author: "Kate", description: "Описание третьего поста", image: "harryPotter", likes: 76, views: 8)
+        let fourthPost = PostModel.init(author: "Alex", description: "Описание четвертого поста", image: "hobbit", likes: 3, views: 190)
+        
+        return [firstPost,secondPost,thirdPost,fourthPost]
     }
 }
