@@ -11,15 +11,19 @@ class ProfileViewController: UIViewController {
     
     let profileHeaderView = ProfileHeaderView()
     let postTableViewCell = PostTableViewCell()
+    let photosTableViewCell = PhotosTableViewCell()
     var posts: [PostModel] = []
     
     private lazy var profileTableView: UITableView = {
         let profileTableView = UITableView()
         posts = fetchData()
         profileTableView.translatesAutoresizingMaskIntoConstraints = false
+        profileTableView.rowHeight = UITableView.automaticDimension
+        profileTableView.estimatedRowHeight = 100
         profileTableView.dataSource = self
         profileTableView.delegate = self
         profileTableView.register(PostTableViewCell.self, forCellReuseIdentifier: "postCell")
+        profileTableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "photoCell")
         return profileTableView
     }()
     
@@ -27,10 +31,6 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         self.navigationController?.isNavigationBarHidden = true
-    }
-    
-    override func viewWillLayoutSubviews() {
-        
     }
     
     private func setupView() {
@@ -49,23 +49,53 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        if section == 0 {
+            return 1
+        }
+        else {
+            return posts.count
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "postCell") as! PostTableViewCell
-        let post = posts[indexPath.row]
-        cell.autorLabel.text = post.author
-        cell.pictureImageView.image = UIImage(named: post.image)
-        cell.descriptionLabel.text = post.description
-        cell.likesLabel.text = "Likes: \(post.likes)"
-        cell.viewsLabel.text = "Views: \(post.views)"
-        return cell
+        if indexPath.section == 0 {
+            let photoCell = tableView.dequeueReusableCell(withIdentifier: "photoCell") as! PhotosTableViewCell
+            photoCell.photoCellLabel.text = "Photos"
+            photoCell.rightArrowLabel.text = "->"
+            photoCell.firstPhotoImageView.image = UIImage(named: "photo1")
+            photoCell.secondPhotoImageView.image = UIImage(named: "photo2")
+            photoCell.thirdPhotoImageView.image = UIImage(named: "photo3")
+            photoCell.fourthPhotoImageView.image = UIImage(named: "photo4")
+            return photoCell
+        }
+        else {
+            let postCell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as! PostTableViewCell
+            let post = posts[indexPath.row]
+            postCell.autorLabel.text = post.author
+            postCell.pictureImageView.image = UIImage(named: post.image)
+            postCell.descriptionLabel.text = post.description
+            postCell.likesLabel.text = "Likes: \(post.likes)"
+            postCell.viewsLabel.text = "Views: \(post.views)"
+            return postCell
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        profileTableView.translatesAutoresizingMaskIntoConstraints = false
-        return profileHeaderView
+        if section == 0 {
+            profileTableView.translatesAutoresizingMaskIntoConstraints = false
+            return profileHeaderView
+        }
+        else {
+            return nil
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+            return nil
     }
 }
 
