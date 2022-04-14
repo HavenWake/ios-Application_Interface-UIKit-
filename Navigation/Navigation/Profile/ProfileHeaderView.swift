@@ -27,11 +27,6 @@ class ProfileHeaderView: UIView {
         addSubview(statusTextField)
         
         backgroundColor = .systemGray5
-        //        layer.shadowOffset.width = 4
-        //        layer.shadowOffset.height = 4
-        //        layer.shadowRadius = 4
-        //        layer.shadowOpacity = 0.7
-        //        layer.shadowColor = UIColor.black.cgColor
     }
     
     func setupConstraint() {
@@ -135,12 +130,4 @@ class ProfileHeaderView: UIView {
             statusText = text
         }
     }
-    /*
-     // Only override draw() if you perform custom drawing.
-     // An empty implementation adversely affects performance during animation.
-     override func draw(_ rect: CGRect) {
-     // Drawing code
-     }
-     */
-    
 }

@@ -14,4 +14,3 @@ struct PostModel {
     var likes: Int
     var views: Int
 }
-

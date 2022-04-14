@@ -92,6 +92,4 @@ class PostTableViewCell: UITableViewCell {
         viewsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant:  -16).isActive = true
         viewsLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16).isActive = true
     }
-    
-    
 }

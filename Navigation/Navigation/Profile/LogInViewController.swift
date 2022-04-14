@@ -100,11 +100,10 @@ class LogInViewController: UIViewController {
         let logInTextField = UITextField()
         logInTextField.translatesAutoresizingMaskIntoConstraints = false
         logInTextField.text = " Email or phone"
-        logInTextField.backgroundColor = .systemGray6
         logInTextField.font = UIFont.systemFont(ofSize: 16)
         logInTextField.textColor = .black
-        logInTextField.tintColor = .darkGray
         logInTextField.autocapitalizationType = .none
+        logInTextField.tintColor = UIColor(named: "ColorSet")
         logInTextField.layer.borderWidth = 0.5
         logInTextField.layer.borderColor = UIColor.lightGray.cgColor
         logInTextField.addTarget(self, action: #selector(loginTextChanged), for: .editingChanged)
@@ -120,10 +119,10 @@ class LogInViewController: UIViewController {
         let passwordTextField = UITextField()
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordTextField.text = " Password"
-        passwordTextField.backgroundColor = .systemGray6
         passwordTextField.font = UIFont.systemFont(ofSize: 16)
         passwordTextField.textColor = .black
         passwordTextField.autocapitalizationType = .none
+        passwordTextField.tintColor = UIColor(named: "ColorSet")
         passwordTextField.layer.borderWidth = 0.5
         passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
         passwordTextField.addTarget(self, action: #selector(passwordTextChanged), for: .editingChanged)
@@ -142,7 +141,7 @@ class LogInViewController: UIViewController {
         authorizationStackView.layer.borderWidth = 0.5
         authorizationStackView.layer.borderColor = UIColor.lightGray.cgColor
         authorizationStackView.clipsToBounds = true
-        authorizationStackView.backgroundColor = .systemGray
+        authorizationStackView.backgroundColor = .systemGray6
         authorizationStackView.axis = .vertical
         authorizationStackView.distribution = .fillEqually
         authorizationStackView.insertArrangedSubview(logInTextField, at: 0)
@@ -193,17 +192,4 @@ class LogInViewController: UIViewController {
         logoImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         logoImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
-    
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
