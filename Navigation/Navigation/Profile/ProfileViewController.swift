@@ -12,6 +12,7 @@ class ProfileViewController: UIViewController {
     let profileHeaderView = ProfileHeaderView()
     let postTableViewCell = PostTableViewCell()
     let photosTableViewCell = PhotosTableViewCell()
+    let photosViewController = PhotosViewController()
     var posts: [PostModel] = []
     
     private lazy var profileTableView: UITableView = {
@@ -20,6 +21,8 @@ class ProfileViewController: UIViewController {
         profileTableView.translatesAutoresizingMaskIntoConstraints = false
         profileTableView.rowHeight = UITableView.automaticDimension
         profileTableView.estimatedRowHeight = 100
+        profileTableView.estimatedSectionHeaderHeight = 0
+        profileTableView.estimatedSectionFooterHeight = 5
         profileTableView.dataSource = self
         profileTableView.delegate = self
         profileTableView.register(PostTableViewCell.self, forCellReuseIdentifier: "postCell")
@@ -94,8 +97,27 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-            return nil
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 220
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 10
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            self.navigationController?.pushViewController(photosViewController, animated: true)
+        }
+        else {
+            return
+        }
     }
 }
 
