@@ -9,10 +9,6 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    let profileHeaderView = ProfileHeaderView()
-    let postTableViewCell = PostTableViewCell()
-    let photosTableViewCell = PhotosTableViewCell()
-    let photosViewController = PhotosViewController()
     var posts: [PostModel] = []
     
     private lazy var profileTableView: UITableView = {
@@ -27,6 +23,7 @@ class ProfileViewController: UIViewController {
         profileTableView.delegate = self
         profileTableView.register(PostTableViewCell.self, forCellReuseIdentifier: "postCell")
         profileTableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "photoCell")
+        profileTableView.register(ProfileHeaderView.self, forHeaderFooterViewReuseIdentifier: "ProfileHeaderView")
         return profileTableView
     }()
     
@@ -89,12 +86,9 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
-            profileTableView.translatesAutoresizingMaskIntoConstraints = false
-            return profileHeaderView
+            return tableView.dequeueReusableHeaderFooterView(withIdentifier: "ProfileHeaderView")
         }
-        else {
-            return nil
-        }
+        return nil
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -113,10 +107,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            self.navigationController?.pushViewController(photosViewController, animated: true)
-        }
-        else {
-            return
+            self.navigationController?.pushViewController(PhotosViewController(), animated: true)
         }
     }
 }
