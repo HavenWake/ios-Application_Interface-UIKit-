@@ -25,12 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return UINavigationController(rootViewController: feedViewController)
     }
     
-        func createGestureViewController() -> UINavigationController {
-            let createGestureViewController = GestureViewController()
-            createGestureViewController.title = "Жесты"
-            createGestureViewController.tabBarItem = UITabBarItem(title: "Жесты", image: UIImage(systemName: "wand.and.stars"), tag: 2)
-            return UINavigationController(rootViewController: createGestureViewController)
-        }
+    func createGestureViewController() -> UINavigationController {
+        let createGestureViewController = GestureViewController()
+        createGestureViewController.title = "Жесты"
+        createGestureViewController.tabBarItem = UITabBarItem(title: "Жесты", image: UIImage(systemName: "wand.and.stars"), tag: 2)
+        return UINavigationController(rootViewController: createGestureViewController)
+    }
     
     func createLogInViewController() -> UINavigationController {
         let logInViewController = LogInViewController()

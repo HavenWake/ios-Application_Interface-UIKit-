@@ -8,7 +8,7 @@
 import UIKit
 
 class GestureViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -16,13 +16,13 @@ class GestureViewController: UIViewController {
         setupConstraints()
         setupGesture()
     }
-
+    
     private func setupView() {
         view.addSubview(transparentView)
         view.addSubview(avatarImageView)
         view.addSubview(closeButton)
     }
-
+    
     private var avatarXConstraint: NSLayoutConstraint?
     private var avatarYConstraint: NSLayoutConstraint?
     private var avatarWidthConstraint: NSLayoutConstraint?
@@ -30,7 +30,7 @@ class GestureViewController: UIViewController {
     private var avatarTopConstraint: NSLayoutConstraint?
     private var avatarLeadingConstraint: NSLayoutConstraint?
     private var avatarTrallingConstraint: NSLayoutConstraint?
-
+    
     private func decreaseAvatarConstraint() {
         self.avatarTopConstraint = avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
         self.avatarLeadingConstraint = avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
@@ -42,9 +42,8 @@ class GestureViewController: UIViewController {
         self.avatarHeightConstraint?.isActive = true
         self.avatarLeadingConstraint?.isActive = true
         self.avatarTopConstraint?.isActive = true
-        self.transparentView.alpha = 0.5
     }
-
+    
     private func increaseAvatarConstraint() {
         self.avatarWidthConstraint = avatarImageView.widthAnchor.constraint(equalToConstant: view.bounds.width)
         self.avatarHeightConstraint = avatarImageView.heightAnchor.constraint(equalToConstant: view.bounds.width)
@@ -56,28 +55,27 @@ class GestureViewController: UIViewController {
         self.avatarHeightConstraint?.isActive = true
         self.avatarLeadingConstraint?.isActive = false
         self.avatarTopConstraint?.isActive = false
-        self.transparentView.alpha = 0.5
     }
-
+    
     private func setupConstraints() {
         transparentView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         transparentView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         transparentView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         transparentView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
+        
         self.avatarTopConstraint = avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
         self.avatarLeadingConstraint = avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         self.avatarHeightConstraint = avatarImageView.heightAnchor.constraint(equalToConstant: 100)
         self.avatarWidthConstraint = avatarImageView.widthAnchor.constraint(equalToConstant: 100)
-
-        closeButton.topAnchor.constraint(equalTo: transparentView.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
-        closeButton.trailingAnchor.constraint(equalTo: transparentView.trailingAnchor, constant: -20).isActive = true
+        
+        closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
+        closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         closeButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         closeButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-
+        
         NSLayoutConstraint.activate([self.avatarLeadingConstraint, self.avatarHeightConstraint, self.avatarWidthConstraint, self.avatarTopConstraint, self.avatarYConstraint, self.avatarXConstraint, avatarTrallingConstraint].compactMap({ $0 }))
     }
-
+    
     lazy var avatarImageView: UIImageView = {
         let avatarImageView = UIImageView()
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +87,7 @@ class GestureViewController: UIViewController {
         avatarImageView.image = UIImage(named: "BatmanPhoto")
         return avatarImageView
     }()
-
+    
     lazy var transparentView: UIView = {
         let transparentView = UIView()
         transparentView.translatesAutoresizingMaskIntoConstraints = false
@@ -97,7 +95,7 @@ class GestureViewController: UIViewController {
         transparentView.backgroundColor = .black
         return transparentView
     }()
-
+    
     lazy var closeButton: UIButton = {
         let closeButton = UIButton(type: .close)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -107,37 +105,37 @@ class GestureViewController: UIViewController {
         closeButton.alpha = 0
         return closeButton
     }()
-
+    
     @objc private func closePicture() {
-
-        self.closeButton.alpha = 0
-        self.decreaseAvatarConstraint()
-
-        UIView.animate(withDuration: 30, delay: 0.7) {
-            self.view.layoutIfNeeded()
-        } completion: { _ in
-
-        }
-
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.closeButton.alpha = 0.0
+        }) { _ in
+            self.decreaseAvatarConstraint()
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.layoutIfNeeded()
+                self.transparentView.alpha = 0
+            }
+            )}
     }
-
+    
     private let tapGestureRecognizer = UITapGestureRecognizer()
-    private var isExpanded = false
-
+    
     private func setupGesture() {
         self.tapGestureRecognizer.addTarget(self, action: #selector(self.handleTapGesture(_:)))
         self.avatarImageView.addGestureRecognizer(self.tapGestureRecognizer)
     }
-
-
+    
+    
     @objc private func handleTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
         guard self.tapGestureRecognizer === gestureRecognizer else { return }
         
-        increaseAvatarConstraint()
-        UIView.animate(withDuration: 4) {
+        self.increaseAvatarConstraint()
+        UIView.animate(withDuration: 0.5, animations: {
+            self.transparentView.alpha = 0.5
             self.view.layoutIfNeeded()
-        } completion: { _ in
-            self.closeButton.alpha = 1
+        }) { _ in
+            UIView.animate(withDuration: 0.3, animations: {self.closeButton.alpha = 1})
         }
     }
 }
