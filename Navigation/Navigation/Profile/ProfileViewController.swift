@@ -9,8 +9,6 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    let profileHeaderView = ProfileHeaderView()
-    let postTableViewCell = PostTableViewCell()
     var posts: [PostModel] = []
     
     private lazy var profileTableView: UITableView = {
@@ -20,6 +18,7 @@ class ProfileViewController: UIViewController {
         profileTableView.dataSource = self
         profileTableView.delegate = self
         profileTableView.register(PostTableViewCell.self, forCellReuseIdentifier: "postCell")
+        profileTableView.register(ProfileHeaderView.self, forHeaderFooterViewReuseIdentifier: "ProfileHeaderView")
         return profileTableView
     }()
     
@@ -64,10 +63,10 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        profileTableView.translatesAutoresizingMaskIntoConstraints = false
-        return profileHeaderView
+        return tableView.dequeueReusableHeaderFooterView(withIdentifier: "ProfileHeaderView")
     }
 }
+
 
 extension ProfileViewController {
     
