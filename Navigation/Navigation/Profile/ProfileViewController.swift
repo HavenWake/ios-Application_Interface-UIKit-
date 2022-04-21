@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
         self.view.addSubview(topView)
-        self.topView.backgroundColor = .white
+        self.topView.backgroundColor = .lightGray
         self.view.addSubview(self.profileHeaderView)
         self.topView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 100)
         setupConstraints()
