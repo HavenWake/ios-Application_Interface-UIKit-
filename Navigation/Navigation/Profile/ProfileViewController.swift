@@ -26,7 +26,7 @@ class ProfileViewController: UIViewController {
         profileTableView.register(ProfileHeaderView.self, forHeaderFooterViewReuseIdentifier: "ProfileHeaderView")
         return profileTableView
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()

@@ -106,7 +106,14 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     }()
     
     @objc func buttonPressed() {
+        if statusTextField.text?.isEmpty == true {
+            statusTextField.layer.borderColor = UIColor.systemRed.cgColor
+        }
+        else {
+        statusTextField.layer.borderColor = UIColor.black.cgColor
         statusLabel.text = statusText
+        statusTextField.text = ""
+        }
     }
     
     lazy var statusTextField: UITextField = {

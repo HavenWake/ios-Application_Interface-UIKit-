@@ -17,7 +17,6 @@
 		81CC422928048E010061AD9B /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CC422828048E010061AD9B /* PostModel.swift */; };
 		81CC422B280498440061AD9B /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CC422A280498440061AD9B /* PostTableViewCell.swift */; };
 		81D6561227F33DA40036F469 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D6561127F33DA40036F469 /* AppDelegate.swift */; };
-		81D6561627F33DA40036F469 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D6561527F33DA40036F469 /* ViewController.swift */; };
 		81D6561B27F33DA40036F469 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81D6561A27F33DA40036F469 /* Assets.xcassets */; };
 		81D6561E27F33DA40036F469 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81D6561C27F33DA40036F469 /* LaunchScreen.storyboard */; };
 		81D6562627F347CA0036F469 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D6562527F347CA0036F469 /* FeedViewController.swift */; };
@@ -39,7 +38,6 @@
 		81CC422A280498440061AD9B /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		81D6560E27F33DA40036F469 /* Navigation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navigation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81D6561127F33DA40036F469 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		81D6561527F33DA40036F469 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		81D6561A27F33DA40036F469 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		81D6561D27F33DA40036F469 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		81D6561F27F33DA40036F469 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -102,7 +100,6 @@
 				81D6562527F347CA0036F469 /* FeedViewController.swift */,
 				81D6562927F34E640036F469 /* PostViewController.swift */,
 				81D6562F27F454040036F469 /* InfoViewController.swift */,
-				81D6561527F33DA40036F469 /* ViewController.swift */,
 				81D6562B27F354AC0036F469 /* Post.swift */,
 				81D6561A27F33DA40036F469 /* Assets.xcassets */,
 				81D6561C27F33DA40036F469 /* LaunchScreen.storyboard */,
@@ -187,7 +184,6 @@
 				811CE8D6280D3C4700678FF5 /* PhotoModel.swift in Sources */,
 				8161C73728111D8200D781F1 /* GestureViewController.swift in Sources */,
 				81CC422B280498440061AD9B /* PostTableViewCell.swift in Sources */,
-				81D6561627F33DA40036F469 /* ViewController.swift in Sources */,
 				81D6562627F347CA0036F469 /* FeedViewController.swift in Sources */,
 				819D066127FC733E00841B66 /* LogInViewController.swift in Sources */,
 				81D6562827F347D70036F469 /* ProfileViewController.swift in Sources */,

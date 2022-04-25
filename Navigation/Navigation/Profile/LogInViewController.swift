@@ -44,6 +44,7 @@ class LogInViewController: UIViewController {
         self.view.addSubview(self.logInScrollView)
         self.logInScrollView.addSubview(self.logInContentView)
         self.logInContentView.addSubview(self.authorizationStackView)
+        self.logInContentView.addSubview(self.alertPasswordLabel)
         self.logInContentView.addSubview(self.logInButton)
         self.logInContentView.addSubview(self.logoImageView)
         setupConstraint()
@@ -91,8 +92,24 @@ class LogInViewController: UIViewController {
     }()
     
     @objc func successfulLogin() {
-        let profileViewController = ProfileViewController()
-        self.navigationController?.pushViewController(profileViewController, animated: true)
+        if logInTextField.text == defaultLogin, passwordTextField.text == defaultPassword {
+            let profileViewController = ProfileViewController()
+            self.navigationController?.pushViewController(profileViewController, animated: true)
+        }
+        else {
+            let alert = UIAlertController(title: "Авторизация не выполнена", message: "Неверный логин или пароль", preferredStyle: .alert)
+            let okButton = UIAlertAction(title: "OK", style: .cancel) { (action) in print("wrong login")}
+            alert.addAction(okButton)
+            present(alert, animated:  true, completion: nil)
+        }
+        if logInTextField.text?.isEmpty == true {
+            logInTextField.layer.borderColor = UIColor.systemRed.cgColor
+            logInTextField.layer.borderWidth = 2
+        }
+        if passwordTextField.text?.isEmpty == true {
+            passwordTextField.layer.borderColor = UIColor.systemRed.cgColor
+            passwordTextField.layer.borderWidth = 2
+        }
     }
     
     
@@ -106,12 +123,14 @@ class LogInViewController: UIViewController {
         logInTextField.tintColor = UIColor(named: "ColorSet")
         logInTextField.layer.borderWidth = 0.5
         logInTextField.layer.borderColor = UIColor.lightGray.cgColor
-        logInTextField.addTarget(self, action: #selector(loginTextChanged), for: .editingChanged)
+        logInTextField.addTarget(self, action: #selector(loginTextEditBegin), for: .editingDidBegin)
         logInTextField.clipsToBounds = true
         return logInTextField
     }()
     
-    @objc func loginTextChanged(_ textField: UITextField) {
+    @objc func loginTextEditBegin(_ textField: UITextField) {
+        logInTextField.text = ""
+        logInTextField.backgroundColor = .systemGray6
         logInTextField.textColor = .black
     }
     
@@ -125,15 +144,30 @@ class LogInViewController: UIViewController {
         passwordTextField.tintColor = UIColor(named: "ColorSet")
         passwordTextField.layer.borderWidth = 0.5
         passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
+        passwordTextField.addTarget(self, action: #selector(passwordEditBegin), for: .editingDidBegin)
         passwordTextField.addTarget(self, action: #selector(passwordTextChanged), for: .editingChanged)
         passwordTextField.clipsToBounds = true
         return passwordTextField
     }()
     
-    @objc func passwordTextChanged(_ textField: UITextField) {
+    @objc func passwordEditBegin(_ textField: UITextField) {
+        passwordTextField.text = ""
+        passwordTextField.backgroundColor = .systemGray6
         passwordTextField.isSecureTextEntry = true
     }
-    
+
+    @objc func passwordTextChanged(_ textField: UITextField) {
+        if let minimumSymbols = passwordTextField.text?.count {
+            if minimumSymbols > 0, minimumSymbols < 4 {
+                alertPasswordLabel.alpha = 1
+                alertPasswordLabel.text = "Пароль не может быть менее 4 символов!"
+            }
+            else {
+                alertPasswordLabel.alpha = 0
+            }
+        }
+    }
+
     private lazy var authorizationStackView: UIStackView = {
         let authorizationStackView = UIStackView()
         authorizationStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -156,6 +190,18 @@ class LogInViewController: UIViewController {
         logoImageView.image = UIImage(named: "logo")
         return logoImageView
     }()
+
+    private lazy var alertPasswordLabel: UILabel = {
+        let alertPasswordLabel = UILabel()
+        alertPasswordLabel.translatesAutoresizingMaskIntoConstraints = false
+        alertPasswordLabel.textColor = .systemRed
+        alertPasswordLabel.alpha = 0
+        return alertPasswordLabel
+    }()
+
+    //Дефолтные логин и пароль
+    private let defaultLogin = "admin"
+    private let defaultPassword = "admin"
     
     
     private func setupConstraint() {
@@ -179,9 +225,14 @@ class LogInViewController: UIViewController {
         logInContentView.bottomAnchor.constraint(equalTo: logInScrollView.bottomAnchor).isActive = true
         logInContentView.widthAnchor.constraint(equalTo: self.logInScrollView.widthAnchor).isActive = true
         logInContentView.heightAnchor.constraint(equalTo: self.logInScrollView.heightAnchor).isActive = true
+
+        //Для предупреждения о недостаточном кол-ве символов
+        alertPasswordLabel.topAnchor.constraint(equalTo: authorizationStackView.bottomAnchor, constant: 5).isActive = true
+        alertPasswordLabel.bottomAnchor.constraint(equalTo: logInButton.topAnchor, constant: -5).isActive = true
+        alertPasswordLabel.centerXAnchor.constraint(equalTo: authorizationStackView.centerXAnchor).isActive = true
         
         //Для кнопки залогина
-        logInButton.topAnchor.constraint(equalTo: authorizationStackView.bottomAnchor, constant: 16).isActive = true
+        logInButton.topAnchor.constraint(equalTo: authorizationStackView.bottomAnchor, constant: 25).isActive = true
         logInButton.leadingAnchor.constraint(equalTo: self.logInContentView.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         logInButton.trailingAnchor.constraint(equalTo: self.logInContentView.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         logInButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
