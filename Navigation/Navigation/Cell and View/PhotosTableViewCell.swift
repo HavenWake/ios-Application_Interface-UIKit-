@@ -25,8 +25,15 @@ class PhotosTableViewCell: UITableViewCell {
         photoCellLabel.translatesAutoresizingMaskIntoConstraints = false
         photoCellLabel.textColor = .black
         photoCellLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapLiked))
+        photoCellLabel.isUserInteractionEnabled = true
+        photoCellLabel.addGestureRecognizer(tap)
         return photoCellLabel
     }()
+
+    @objc func tapLiked() {
+        print("Good")
+    }
     
     lazy var rightArrowLabel: UILabel = {
         rightArrowLabel = UILabel()
@@ -112,5 +119,6 @@ class PhotosTableViewCell: UITableViewCell {
         fourthPhotoImageView.bottomAnchor.constraint(equalTo: firstPhotoImageView.bottomAnchor).isActive = true
         fourthPhotoImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant:  -12).isActive = true
         fourthPhotoImageView.heightAnchor.constraint(equalTo: fourthPhotoImageView.widthAnchor).isActive = true
+
     }
 }

@@ -7,11 +7,13 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
-    
-    var posts: [PostModel] = []
-    
-    private lazy var profileTableView: UITableView = {
+class ProfileViewController: UIViewController, TapLikedDelegate {
+
+    func tapLikedLabel() {
+        self.profileTableView.reloadData()
+    }
+  
+    lazy var profileTableView: UITableView = {
         let profileTableView = UITableView()
         posts = fetchData()
         profileTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,12 +29,23 @@ class ProfileViewController: UIViewController {
         return profileTableView
     }()
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        self.profileTableView.reloadData()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.profileTableView.reloadData()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         self.navigationController?.isNavigationBarHidden = true
     }
-    
+
     private func setupView() {
         view.backgroundColor = .systemGray5
         self.view.addSubview(self.profileTableView)
@@ -48,6 +61,7 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
@@ -74,7 +88,18 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
         else {
             let postCell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as! PostTableViewCell
+
+            postCell.likedDelegate = self
+
+            if postCell.isLike {
+                posts[indexPath.row].likes -= 1
+            }
+            else {
+                posts[indexPath.row].likes += 1
+            }
+
             let post = posts[indexPath.row]
+            postCell.selectionStyle = .none
             postCell.autorLabel.text = post.author
             postCell.pictureImageView.image = UIImage(named: post.image)
             postCell.descriptionLabel.text = post.description
@@ -83,7 +108,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             return postCell
         }
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             return tableView.dequeueReusableHeaderFooterView(withIdentifier: "ProfileHeaderView")
@@ -104,22 +129,34 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return 0
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             self.navigationController?.pushViewController(PhotosViewController(), animated: true)
+        }
+        else {
+            let fullPostViewController = FullPostViewController()
+            fullPostViewController.postAuthor = posts[indexPath.row].author
+            fullPostViewController.postDescription = posts[indexPath.row].description
+            fullPostViewController.postImage = posts[indexPath.row].image
+            fullPostViewController.postLikes = posts[indexPath.row].likes
+            fullPostViewController.postViews = posts[indexPath.row].views + 1
+            fullPostViewController.postNumber = indexPath.row
+            posts[indexPath.row].views += 1
+            self.profileTableView.reloadRows(at: [indexPath], with: .none)
+            navigationController?.pushViewController(fullPostViewController, animated: true)
         }
     }
 }
 
 extension ProfileViewController {
-    
+
     func fetchData() -> [PostModel] {
         let firstPost = PostModel.init(author: "Sam", description: "Описание первого поста", image: "silentHill", likes: 10, views: 21)
         let secondPost = PostModel.init(author: "John", description: "Описание второго поста", image: "spiderMan", likes: 342, views: 12)
         let thirdPost = PostModel.init(author: "Kate", description: "Описание третьего поста", image: "harryPotter", likes: 76, views: 8)
         let fourthPost = PostModel.init(author: "Alex", description: "Описание четвертого поста", image: "hobbit", likes: 3, views: 190)
-        
+
         return [firstPost,secondPost,thirdPost,fourthPost]
     }
 }

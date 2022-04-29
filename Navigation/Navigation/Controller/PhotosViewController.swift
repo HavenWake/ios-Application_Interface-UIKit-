@@ -11,8 +11,9 @@ class PhotosViewController: UIViewController {
     
     let photosCollectionViewCell = PhotosCollectionViewCell()
     var photos: [PhotoModel] = []
+    var photoNumber: UIImage?
     
-    private lazy var photoCollectionView: UICollectionView = {
+    lazy var photoCollectionView: UICollectionView = {
         let photoLayout = UICollectionViewFlowLayout()
         photos = fetchData()
         photoLayout.scrollDirection = .vertical
@@ -49,10 +50,12 @@ class PhotosViewController: UIViewController {
         view.backgroundColor = .white
         self.view.addSubview(photoCollectionView)
         
+        //Для колекшн вью
         self.photoCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.photoCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         self.photoCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         self.photoCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        
     }
     
 }
@@ -67,8 +70,16 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
         let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotosCollectionViewCell
         let photo = photos[indexPath.row]
         photoCell.photoImageView.image = UIImage(named: photo.image)
+        photoNumber = photoCell.photoImageView.image
         return photoCell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let fullPhotoViewController = FullPhotoViewController()
+        fullPhotoViewController.imageCell = photos[indexPath.row].image
+        view.addSubview(fullPhotoViewController.view)
+//        navigationController?.pushViewController(fullPhotoViewController, animated: true)
+    }    
 }
 
 extension PhotosViewController {
