@@ -36,6 +36,11 @@ class LogInViewController: UIViewController {
         self.logInScrollView.contentInset.bottom = .zero
         self.logInScrollView.verticalScrollIndicatorInsets = .zero
     }
+
+    @objc func kdbHideOnTap() {
+        passwordTextField.resignFirstResponder()
+        logInTextField.resignFirstResponder()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +52,9 @@ class LogInViewController: UIViewController {
         self.logInContentView.addSubview(self.logInButton)
         self.logInContentView.addSubview(self.logoImageView)
         setupConstraint()
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(kdbHideOnTap))
+        self.view.addGestureRecognizer(tapGesture)
     }
     
     private lazy var logInScrollView: UIScrollView = {
@@ -98,7 +106,7 @@ class LogInViewController: UIViewController {
     private lazy var logInTextField: UITextField = {
         let logInTextField = UITextField()
         logInTextField.translatesAutoresizingMaskIntoConstraints = false
-        logInTextField.text = " Email or phone"
+        logInTextField.placeholder = "Email or phone"
         logInTextField.font = UIFont(name: "System", size: 16.0)
         logInTextField.textColor = .black
         logInTextField.tintColor = .darkGray
@@ -108,6 +116,11 @@ class LogInViewController: UIViewController {
         logInTextField.layer.borderColor = UIColor.lightGray.cgColor
         logInTextField.addTarget(self, action: #selector(loginTextChanged), for: .editingChanged)
         logInTextField.clipsToBounds = true
+        logInTextField.leftView = UIView(frame: CGRect(x: 0, y: 10, width: 10, height: logInTextField.frame.height))
+        logInTextField.leftViewMode = .always
+        logInTextField.keyboardType = .emailAddress
+        logInTextField.autocorrectionType = .no
+        logInTextField.returnKeyType = .done
         return logInTextField
     }()
     
@@ -118,7 +131,7 @@ class LogInViewController: UIViewController {
     private lazy var passwordTextField: UITextField = {
         let passwordTextField = UITextField()
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextField.text = " Password"
+        passwordTextField.placeholder = "Password"
         passwordTextField.font = UIFont(name: "System", size: 16.0)
         passwordTextField.textColor = .black
         passwordTextField.autocapitalizationType = .none
@@ -127,6 +140,10 @@ class LogInViewController: UIViewController {
         passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
         passwordTextField.addTarget(self, action: #selector(passwordTextChanged), for: .editingChanged)
         passwordTextField.clipsToBounds = true
+        passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 10, width: 10, height: passwordTextField.frame.height))
+        passwordTextField.leftViewMode = .always
+        passwordTextField.autocorrectionType = .no
+        passwordTextField.returnKeyType = .done
         return passwordTextField
     }()
     
@@ -167,18 +184,17 @@ class LogInViewController: UIViewController {
         authorizationStackView.trailingAnchor.constraint(equalTo: self.logInContentView.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         authorizationStackView.leadingAnchor.constraint(equalTo: self.logInContentView.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
 
-        
         //для logInScrollView
         logInScrollView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        logInScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        logInScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50).isActive = true
         logInScrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         logInScrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        
+
         //для logInContentView
         logInContentView.leftAnchor.constraint(equalTo: logInScrollView.leftAnchor).isActive = true
         logInContentView.rightAnchor.constraint(equalTo: logInScrollView.rightAnchor).isActive = true
         logInContentView.topAnchor.constraint(equalTo: logInScrollView.topAnchor).isActive = true
-        logInContentView.bottomAnchor.constraint(equalTo: logInScrollView.bottomAnchor).isActive = true
+        logInContentView.bottomAnchor.constraint(equalTo: logInScrollView.bottomAnchor, constant: -200).isActive = true
         logInContentView.widthAnchor.constraint(equalTo: self.logInScrollView.widthAnchor).isActive = true
         logInContentView.heightAnchor.constraint(equalTo: self.logInScrollView.heightAnchor).isActive = true
         
