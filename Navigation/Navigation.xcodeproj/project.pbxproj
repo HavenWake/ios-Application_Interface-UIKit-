@@ -29,6 +29,8 @@
 		81D6563027F454050036F469 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D6562F27F454040036F469 /* InfoViewController.swift */; };
 		81DD45E628196EE2004460D4 /* TapLikeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DD45E528196EE2004460D4 /* TapLikeProtocol.swift */; };
 		81EEF6C7281ABAB20050B602 /* FullPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EEF6C6281ABAB20050B602 /* FullPhotoViewController.swift */; };
+		81FE9696281D7A87004A03F3 /* FullPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FE9695281D7A87004A03F3 /* FullPhotoView.swift */; };
+		81FE9699281E7FDE004A03F3 /* AnimationAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FE9698281E7FDE004A03F3 /* AnimationAvatarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +58,8 @@
 		81D6562F27F454040036F469 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		81DD45E528196EE2004460D4 /* TapLikeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapLikeProtocol.swift; sourceTree = "<group>"; };
 		81EEF6C6281ABAB20050B602 /* FullPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoViewController.swift; sourceTree = "<group>"; };
+		81FE9695281D7A87004A03F3 /* FullPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoView.swift; sourceTree = "<group>"; };
+		81FE9698281E7FDE004A03F3 /* AnimationAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationAvatarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,8 @@
 				811D978027F4A08200022B18 /* ProfileHeaderView.swift */,
 				819DD175281A712D00DDC7A8 /* FullPostView.swift */,
 				81B22A61281C2BFE00E98242 /* FullAvatarView.swift */,
+				81FE9695281D7A87004A03F3 /* FullPhotoView.swift */,
+				81FE9698281E7FDE004A03F3 /* AnimationAvatarView.swift */,
 			);
 			path = "Cell and View";
 			sourceTree = "<group>";
@@ -225,6 +231,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81FE9699281E7FDE004A03F3 /* AnimationAvatarView.swift in Sources */,
 				81EEF6C7281ABAB20050B602 /* FullPhotoViewController.swift in Sources */,
 				815F45D9280834F80056173C /* PhotosTableViewCell.swift in Sources */,
 				8170C70928089DB400E66DBA /* PhotosCollectionViewCell.swift in Sources */,
@@ -242,6 +249,7 @@
 				81D6561227F33DA40036F469 /* AppDelegate.swift in Sources */,
 				81D6562A27F34E640036F469 /* PostViewController.swift in Sources */,
 				81B22A62281C2BFE00E98242 /* FullAvatarView.swift in Sources */,
+				81FE9696281D7A87004A03F3 /* FullPhotoView.swift in Sources */,
 				811D978127F4A08200022B18 /* ProfileHeaderView.swift in Sources */,
 				81CC422928048E010061AD9B /* PostModel.swift in Sources */,
 				81DD45E628196EE2004460D4 /* TapLikeProtocol.swift in Sources */,

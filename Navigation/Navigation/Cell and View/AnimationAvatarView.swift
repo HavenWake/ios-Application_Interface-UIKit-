@@ -1,14 +1,13 @@
 //
-//  FullAvatarView.swift
+//  AnimationAvatarView.swift
 //  Navigation
 //
-//  Created by Семён Пряничников on 29.04.2022.
+//  Created by Семён Пряничников on 01.05.2022.
 //
 
 import UIKit
 
-class FullAvatarView: UIView {
-
+class AnimationAvatarView: UIView {
     override init(frame: CGRect) {
         super .init(frame: frame)
         backgroundColor = .white
@@ -21,11 +20,13 @@ class FullAvatarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+
     private func setupView() {
-        translatesAutoresizingMaskIntoConstraints = false
         addSubview(transparentView)
         addSubview(avatarImageView)
         addSubview(closeButton)
+        self.isUserInteractionEnabled = true
+        
     }
 
     private var avatarXConstraint: NSLayoutConstraint?
@@ -52,8 +53,8 @@ class FullAvatarView: UIView {
     private func increaseAvatarConstraint() {
         self.avatarWidthConstraint = avatarImageView.widthAnchor.constraint(equalToConstant: bounds.width)
         self.avatarHeightConstraint = avatarImageView.heightAnchor.constraint(equalToConstant: bounds.width)
-        self.avatarXConstraint = avatarImageView.centerXAnchor.constraint(equalTo: centerXAnchor)
-        self.avatarYConstraint = avatarImageView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        self.avatarXConstraint = avatarImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+        self.avatarYConstraint = avatarImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         self.avatarXConstraint?.isActive = true
         self.avatarYConstraint?.isActive = true
         self.avatarWidthConstraint?.isActive = true
@@ -89,7 +90,7 @@ class FullAvatarView: UIView {
         avatarImageView.layer.borderColor = UIColor.white.cgColor
         avatarImageView.layer.cornerRadius = 50
         avatarImageView.clipsToBounds = true
-        avatarImageView.image = UIImage(named: "silentHill")
+        avatarImageView.image = UIImage(named: "BatmanPhoto")
         return avatarImageView
     }()
 
@@ -143,4 +144,5 @@ class FullAvatarView: UIView {
             UIView.animate(withDuration: 0.3, animations: {self.closeButton.alpha = 1})
         }
     }
+
 }

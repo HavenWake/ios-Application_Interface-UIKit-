@@ -75,9 +75,24 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let fullPhotoViewController = FullPhotoViewController()
-        fullPhotoViewController.imageCell = photos[indexPath.row].image
-        view.addSubview(fullPhotoViewController.view)
+        let fullPhotoView = FullPhotoView()
+        self.view.addSubview(fullPhotoView)
+        fullPhotoView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        fullPhotoView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        fullPhotoView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        fullPhotoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+
+
+
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut) {
+            let photo = self.photos[indexPath.item].image
+            fullPhotoView.fullPhotoImageView.image = UIImage(named: photo)
+            fullPhotoView.alpha = 1
+            fullPhotoView.transform = .identity
+        }
+//        let fullPhotoViewController = FullPhotoViewController()
+//        fullPhotoViewController.imageCell = photos[indexPath.row].image
+//        view.addSubview(fullPhotoViewController.view)
 //        navigationController?.pushViewController(fullPhotoViewController, animated: true)
     }    
 }
