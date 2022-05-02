@@ -13,7 +13,6 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
         self.profileTableView.reloadData()
     }
     
-    
     lazy var profileTableView: UITableView = {
         let profileTableView = UITableView()
         posts = fetchData()

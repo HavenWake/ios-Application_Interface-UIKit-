@@ -31,6 +31,9 @@ class FullPostView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    private var likeTapGesture = UITapGestureRecognizer()
+    var likedDelegate: TapLikedDelegate?
     
     
     lazy var postScrollView: UIScrollView = {
@@ -84,11 +87,7 @@ class FullPostView: UIView {
         }
         return pictureImageView
     }()
-    
-    private var likeTapGesture = UITapGestureRecognizer()
-    
-    var likedDelegate: TapLikedDelegate?
-    
+
     lazy var likesLabel: UILabel = {
         let likesLabel = UILabel()
         likesLabel.translatesAutoresizingMaskIntoConstraints = false
