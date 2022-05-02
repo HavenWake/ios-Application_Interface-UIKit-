@@ -14,7 +14,7 @@ class PostTableViewCell: UITableViewCell {
         setupView()
         setupConstraints()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -46,7 +46,7 @@ class PostTableViewCell: UITableViewCell {
         pictureImageView.clipsToBounds = true
         return pictureImageView
     }()
-
+    
     lazy var likesLabel: UILabel = {
         let likesLabel = UILabel()
         likesLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -57,10 +57,10 @@ class PostTableViewCell: UITableViewCell {
         likesLabel.addGestureRecognizer(tap)
         return likesLabel
     }()
-
+    
     private var likeTapGesture = UITapGestureRecognizer()
     var likedDelegate: TapLikedDelegate?
-
+    
     var isLike = false
     @objc func tapLiked() {
         likedDelegate?.tapLikedLabel()
@@ -73,7 +73,7 @@ class PostTableViewCell: UITableViewCell {
         viewsLabel.textColor = .black
         return viewsLabel
     }()
-
+    
     func setupView() {
         contentView.addSubview(autorLabel)
         contentView.addSubview(descriptionLabel)

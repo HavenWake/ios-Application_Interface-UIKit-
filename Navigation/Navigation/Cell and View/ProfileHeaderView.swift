@@ -18,14 +18,14 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     var avatarWidthConstraint: NSLayoutConstraint!
     var avatarHeightConstraint: NSLayoutConstraint!
     var avatarLeadingAnchorConstraint: NSLayoutConstraint!
     var avatarTopConstraint: NSLayoutConstraint!
     var avatarXConstraint: NSLayoutConstraint!
     var avatarYConstraint: NSLayoutConstraint!
-
+    
     var tappedAvatarWidthConstraint: NSLayoutConstraint!
     var tappedAvatarHeightConstraint: NSLayoutConstraint!
     
@@ -35,11 +35,11 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         contentView.addSubview(avatarImageView)
         contentView.addSubview(setStatusButton)
         contentView.addSubview(statusTextField)
-
+        
         backgroundColor = .systemGray5
     }
-
-   ///recognizer
+    
+    ///recognizer
     let tapGestureRecognizer = UITapGestureRecognizer() 
     
     func setupConstraint() {
@@ -54,7 +54,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         fullNameLabel.topAnchor.constraint(equalTo:  contentView.topAnchor, constant: 27).isActive = true
         fullNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
         fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 20).isActive = true
-
+        
         avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
         avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
         avatarImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
@@ -71,7 +71,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         statusTextField.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 20).isActive = true
         statusTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
-
+    
     lazy var fullNameLabel: UILabel = {
         let fullNameLabel = UILabel()
         fullNameLabel.text = "Batman"
@@ -123,11 +123,13 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     @objc func buttonPressed() {
         if statusTextField.text?.isEmpty == true {
             statusTextField.layer.borderColor = UIColor.systemRed.cgColor
+            statusTextField.placeholder = "Required to enter a status"
         }
         else {
-        statusTextField.layer.borderColor = UIColor.black.cgColor
-        statusLabel.text = statusText
-        statusTextField.text = ""
+            statusTextField.layer.borderColor = UIColor.black.cgColor
+            statusLabel.text = statusText
+            statusTextField.text = ""
+            statusTextField.placeholder = "What is new?"
         }
     }
     

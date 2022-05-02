@@ -13,6 +13,10 @@ class PhotosViewController: UIViewController {
     var photos: [PhotoModel] = []
     var photoNumber: UIImage?
     
+    
+    var isFullPhoto: Bool = false
+    var endFrame: CGRect = CGRect()
+    
     lazy var photoCollectionView: UICollectionView = {
         let photoLayout = UICollectionViewFlowLayout()
         photos = fetchData()
@@ -22,12 +26,52 @@ class PhotosViewController: UIViewController {
         photoLayout.minimumLineSpacing = 8
         photoLayout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         
-        let photoCollectionView = UICollectionView.init(frame: view.frame, collectionViewLayout: photoLayout)
+        let photoCollectionView = UICollectionView.init(frame: .zero, collectionViewLayout: photoLayout)
         photoCollectionView.translatesAutoresizingMaskIntoConstraints = false
         photoCollectionView.dataSource = self
         photoCollectionView.delegate = self
         return photoCollectionView
     }()
+    
+    lazy var fullPhotoImageView: UIImageView = {
+        let fullPhotoImageView = UIImageView()
+        fullPhotoImageView.translatesAutoresizingMaskIntoConstraints = true
+        fullPhotoImageView.layer.borderColor = UIColor.white.cgColor
+        fullPhotoImageView.clipsToBounds = true
+        fullPhotoImageView.alpha = 0
+        return fullPhotoImageView
+    }()
+    
+    lazy var transparentView: UIView = {
+        let transparentView = UIView()
+        transparentView.translatesAutoresizingMaskIntoConstraints = false
+        transparentView.alpha = 0
+        transparentView.backgroundColor = .black
+        return transparentView
+    }()
+    
+    lazy var closeButton: UIButton = {
+        let closeButton = UIButton(type: .close)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.isUserInteractionEnabled = true
+        closeButton.addTarget(self, action: #selector(closePicture), for: .touchUpInside)
+        closeButton.isHidden = false
+        closeButton.backgroundColor = .white
+        closeButton.alpha = 0
+        closeButton.clipsToBounds = true
+        closeButton.layer.cornerRadius = 10
+        return closeButton
+    }()
+    
+    @objc private func closePicture() {
+        self.isFullPhoto = false
+        UIView.animate(withDuration: 0.5, animations: {
+            self.fullPhotoImageView.frame = self.isFullPhoto ? UIScreen.main.bounds:self.endFrame
+            self.view.layoutIfNeeded()
+            self.transparentView.alpha = 0
+            self.closeButton.alpha = 0
+        }, completion: {_ in self.fullPhotoImageView.alpha = 0})
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +93,9 @@ class PhotosViewController: UIViewController {
     func setupViews() {
         view.backgroundColor = .white
         self.view.addSubview(photoCollectionView)
+        self.view.addSubview(transparentView)
+        self.view.addSubview(fullPhotoImageView)
+        self.view.addSubview(closeButton)
         
         //Для колекшн вью
         self.photoCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -56,8 +103,18 @@ class PhotosViewController: UIViewController {
         self.photoCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         self.photoCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         
+        //Для кнопки закрытия фото
+        closeButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
+        closeButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
+        closeButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        closeButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        //Для полупрозрачного вью
+        transparentView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        transparentView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        transparentView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        transparentView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
-    
 }
 
 extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -75,26 +132,22 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let fullPhotoView = FullPhotoView()
-        self.view.addSubview(fullPhotoView)
-        fullPhotoView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        fullPhotoView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        fullPhotoView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        fullPhotoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-
-
-
-        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut) {
-            let photo = self.photos[indexPath.item].image
-            fullPhotoView.fullPhotoImageView.image = UIImage(named: photo)
-            fullPhotoView.alpha = 1
-            fullPhotoView.transform = .identity
+        let photoCell = collectionView.cellForItem(at: indexPath) as! PhotosCollectionViewCell
+        isFullPhoto = true
+        self.fullPhotoImageView.image = photoCell.photoImageView.image
+        self.fullPhotoImageView.alpha = 1
+        if let startingFrame = photoCell.superview?.convert(photoCell.frame, to: nil){
+            self.fullPhotoImageView.frame = startingFrame
+            self.endFrame = startingFrame
         }
-//        let fullPhotoViewController = FullPhotoViewController()
-//        fullPhotoViewController.imageCell = photos[indexPath.row].image
-//        view.addSubview(fullPhotoViewController.view)
-//        navigationController?.pushViewController(fullPhotoViewController, animated: true)
-    }    
+        UIView.animate(withDuration: 0.5,animations: {
+            self.fullPhotoImageView.frame = self.isFullPhoto ? CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width):self.endFrame
+            self.fullPhotoImageView.center = self.view.center
+            self.transparentView.alpha = 0.5
+            self.closeButton.alpha = 1
+            self.view.layoutIfNeeded()
+        })
+    }
 }
 
 extension PhotosViewController {

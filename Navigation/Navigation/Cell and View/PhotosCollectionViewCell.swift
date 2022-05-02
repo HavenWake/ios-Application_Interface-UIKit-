@@ -14,7 +14,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super .init(frame: frame)
         self.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(photoImageView)
+        contentView.addSubview(photoImageView)
         setupConstraint()
     }
     

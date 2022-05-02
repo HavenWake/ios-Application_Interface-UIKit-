@@ -8,12 +8,12 @@
 import UIKit
 
 class ProfileViewController: UIViewController, TapLikedDelegate {
-
+    
     func tapLikedLabel() {
         self.profileTableView.reloadData()
     }
-
-
+    
+    
     lazy var profileTableView: UITableView = {
         let profileTableView = UITableView()
         posts = fetchData()
@@ -29,7 +29,7 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
         profileTableView.register(ProfileHeaderView.self, forHeaderFooterViewReuseIdentifier: "ProfileHeaderView")
         return profileTableView
     }()
-
+    
     lazy var fullAvatarImageView: UIImageView = {
         let fullAvatarImageView = UIImageView()
         fullAvatarImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,17 +49,20 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
         transparentView.backgroundColor = .black
         return transparentView
     }()
-
+    
     lazy var closeButton: UIButton = {
         let closeButton = UIButton(type: .close)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.isUserInteractionEnabled = true
         closeButton.addTarget(self, action: #selector(closePicture), for: .touchUpInside)
         closeButton.isHidden = false
+        closeButton.backgroundColor = .white
         closeButton.alpha = 0
+        closeButton.clipsToBounds = true
+        closeButton.layer.cornerRadius = 10
         return closeButton
     }()
-
+    
     @objc private func closePicture() {
         UIView.animate(withDuration: 0.3, animations: {
             self.closeButton.alpha = 0.0
@@ -72,24 +75,24 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
             }
             )}
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         self.profileTableView.reloadData()
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.profileTableView.reloadData()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         self.navigationController?.isNavigationBarHidden = true
     }
-
+    
     private func setupView() {
         view.backgroundColor = .systemGray5
         view.addSubview(profileTableView)
@@ -102,22 +105,22 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
         let trailingConstraint = self.profileTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         let topConstraint = self.profileTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
         let bottomConstraint = self.profileTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-
+        
         transparentView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         transparentView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         transparentView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         transparentView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-
+        
         closeButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
         closeButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
         closeButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         closeButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
         NSLayoutConstraint.activate([topConstraint,leadingConstraint,trailingConstraint,bottomConstraint])
-
+        
         self.decreaseAvatarConstraint()
     }
-
+    
     private var avatarXConstraint: NSLayoutConstraint?
     private var avatarYConstraint: NSLayoutConstraint?
     private var avatarWidthConstraint: NSLayoutConstraint?
@@ -125,7 +128,7 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
     private var avatarTopConstraint: NSLayoutConstraint?
     private var avatarLeadingConstraint: NSLayoutConstraint?
     private var avatarTrallingConstraint: NSLayoutConstraint?
-
+    
     private func decreaseAvatarConstraint() {
         self.avatarTopConstraint = fullAvatarImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 38)
         self.avatarLeadingConstraint = fullAvatarImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16)
@@ -138,7 +141,7 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
         self.avatarLeadingConstraint?.isActive = true
         self.avatarTopConstraint?.isActive = true
     }
-
+    
     private func increaseAvatarConstraint() {
         self.avatarWidthConstraint = fullAvatarImageView.widthAnchor.constraint(equalToConstant: self.view.bounds.width)
         self.avatarHeightConstraint = fullAvatarImageView.heightAnchor.constraint(equalToConstant: self.view.bounds.width)
@@ -151,7 +154,7 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
         self.avatarLeadingConstraint?.isActive = false
         self.avatarTopConstraint?.isActive = false
     }
-
+    
     @objc private func handleTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
         print("avatar tap")
         self.fullAvatarImageView.alpha = 1
@@ -166,7 +169,7 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
 }
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
@@ -193,16 +196,16 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
         else {
             let postCell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as! PostTableViewCell
-
+            
             postCell.likedDelegate = self
-
+            
             if postCell.isLike {
                 posts[indexPath.row].likes -= 1
             }
             else {
                 posts[indexPath.row].likes += 1
             }
-
+            
             let post = posts[indexPath.row]
             postCell.selectionStyle = .none
             postCell.autorLabel.text = post.author
@@ -213,7 +216,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             return postCell
         }
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "ProfileHeaderView") as! ProfileHeaderView
@@ -236,7 +239,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return 0
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             self.navigationController?.pushViewController(PhotosViewController(), animated: true)
@@ -257,13 +260,13 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension ProfileViewController {
-
+    
     func fetchData() -> [PostModel] {
         let firstPost = PostModel.init(author: "Sam", description: "Описание первого поста", image: "silentHill", likes: 10, views: 21)
         let secondPost = PostModel.init(author: "John", description: "Описание второго поста", image: "spiderMan", likes: 342, views: 12)
         let thirdPost = PostModel.init(author: "Kate", description: "Описание третьего поста", image: "harryPotter", likes: 76, views: 8)
         let fourthPost = PostModel.init(author: "Alex", description: "Описание четвертого поста", image: "hobbit", likes: 3, views: 190)
-
+        
         return [firstPost,secondPost,thirdPost,fourthPost]
     }
 }

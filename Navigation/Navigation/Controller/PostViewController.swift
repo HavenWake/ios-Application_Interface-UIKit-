@@ -15,7 +15,7 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
         self.navigationItem.title = titlePost
         view.backgroundColor = .systemYellow
-
+        
         
         let infoButton = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(openInfo))
         

@@ -36,7 +36,7 @@ class LogInViewController: UIViewController {
         self.logInScrollView.contentInset.bottom = .zero
         self.logInScrollView.verticalScrollIndicatorInsets = .zero
     }
-
+    
     @objc func kdbHideOnTap() {
         passwordTextField.resignFirstResponder()
         logInTextField.resignFirstResponder()
@@ -53,7 +53,7 @@ class LogInViewController: UIViewController {
         self.logInContentView.addSubview(self.logInButton)
         self.logInContentView.addSubview(self.logoImageView)
         setupConstraint()
-
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(kdbHideOnTap))
         self.view.addGestureRecognizer(tapGesture)
     }
@@ -172,7 +172,7 @@ class LogInViewController: UIViewController {
         passwordTextField.backgroundColor = .systemGray6
         passwordTextField.isSecureTextEntry = true
     }
-
+    
     @objc func passwordTextChanged(_ textField: UITextField) {
         if let minimumSymbols = passwordTextField.text?.count {
             if minimumSymbols > 0, minimumSymbols < 4 {
@@ -184,7 +184,7 @@ class LogInViewController: UIViewController {
             }
         }
     }
-
+    
     private lazy var authorizationStackView: UIStackView = {
         let authorizationStackView = UIStackView()
         authorizationStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -207,7 +207,7 @@ class LogInViewController: UIViewController {
         logoImageView.image = UIImage(named: "logo")
         return logoImageView
     }()
-
+    
     private lazy var alertPasswordLabel: UILabel = {
         let alertPasswordLabel = UILabel()
         alertPasswordLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -215,10 +215,10 @@ class LogInViewController: UIViewController {
         alertPasswordLabel.alpha = 0
         return alertPasswordLabel
     }()
-
+    
     //Дефолтные логин и пароль
-    private let defaultLogin = ""
-    private let defaultPassword = ""
+    private let defaultLogin = "admin"
+    private let defaultPassword = "admin"
     
     
     private func setupConstraint() {
@@ -242,7 +242,7 @@ class LogInViewController: UIViewController {
         logInContentView.bottomAnchor.constraint(equalTo: logInScrollView.bottomAnchor, constant: -200).isActive = true
         logInContentView.widthAnchor.constraint(equalTo: self.logInScrollView.widthAnchor).isActive = true
         logInContentView.heightAnchor.constraint(equalTo: self.logInScrollView.heightAnchor).isActive = true
-
+        
         //Для предупреждения о недостаточном кол-ве символов
         alertPasswordLabel.topAnchor.constraint(equalTo: authorizationStackView.bottomAnchor, constant: 5).isActive = true
         alertPasswordLabel.bottomAnchor.constraint(equalTo: logInButton.topAnchor, constant: -5).isActive = true

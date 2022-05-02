@@ -8,42 +8,42 @@
 import UIKit
 
 class FullPostViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Пост"
         self.navigationItem.backButtonTitle = "Назад"
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.isHidden = false
-
+        
         setupView()
         setupConstraints()
         setupGesture()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-
+    
     var postAuthor, postDescription, postImage: String?
     var postLikes, postViews, postNumber: Int?
-
+    
     private lazy var postScrollView: UIScrollView = {
         let postScrollView = UIScrollView()
         postScrollView.backgroundColor = .clear
         postScrollView.translatesAutoresizingMaskIntoConstraints = false
         return postScrollView
-
+        
     }()
-
+    
     private lazy var postContentView: UIView = {
         let postContentView = UIView()
         postContentView.backgroundColor = .clear
         postContentView.translatesAutoresizingMaskIntoConstraints = false
         return postContentView
     }()
-
+    
     private lazy var autorLabel: UILabel = {
         let autorLabel = UILabel()
         autorLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -55,7 +55,7 @@ class FullPostViewController: UIViewController {
         }
         return autorLabel
     }()
-
+    
     private lazy var descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +67,7 @@ class FullPostViewController: UIViewController {
         }
         return descriptionLabel
     }()
-
+    
     private lazy var pictureImageView: UIImageView = {
         let pictureImageView = UIImageView()
         pictureImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +80,7 @@ class FullPostViewController: UIViewController {
         }
         return pictureImageView
     }()
-
+    
     private lazy var likesLabel: UILabel = {
         let likesLabel = UILabel()
         likesLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -92,7 +92,7 @@ class FullPostViewController: UIViewController {
         }
         return likesLabel
     }()
-
+    
     private lazy var viewsLabel: UILabel = {
         let viewsLabel = UILabel()
         viewsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -103,7 +103,7 @@ class FullPostViewController: UIViewController {
         }
         return viewsLabel
     }()
-
+    
     private func setupView() {
         self.view.backgroundColor = .white
         self.view.addSubview(postScrollView)
@@ -114,55 +114,55 @@ class FullPostViewController: UIViewController {
         postContentView.addSubview(likesLabel)
         postContentView.addSubview(viewsLabel)
     }
-
+    
     private func setupConstraints() {
-
+        
         //Скролл вью
         postScrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         postScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         postScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         postScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
+        
         //Контент вью
         postContentView.topAnchor.constraint(equalTo: postScrollView.topAnchor).isActive = true
         postContentView.leadingAnchor.constraint(equalTo: postScrollView.leadingAnchor).isActive = true
         postContentView.trailingAnchor.constraint(equalTo: postScrollView.trailingAnchor).isActive = true
         postContentView.bottomAnchor.constraint(equalTo: postScrollView.bottomAnchor).isActive = true
-
+        
         //Для имени автора
         autorLabel.topAnchor.constraint(equalTo: postContentView.topAnchor, constant: 16).isActive = true
         autorLabel.leadingAnchor.constraint(equalTo: postContentView.leadingAnchor, constant: 16).isActive = true
-
+        
         //Для картинки поста
         pictureImageView.topAnchor.constraint(equalTo: autorLabel.bottomAnchor, constant: 16).isActive = true
         pictureImageView.leadingAnchor.constraint(equalTo: postContentView.leadingAnchor).isActive = true
         pictureImageView.trailingAnchor.constraint(equalTo: postContentView.trailingAnchor).isActive = true
         pictureImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         pictureImageView.heightAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-
+        
         //Для описания поста
         descriptionLabel.topAnchor.constraint(equalTo: pictureImageView.bottomAnchor, constant: 16).isActive = true
         descriptionLabel.leadingAnchor.constraint(equalTo: postContentView.leadingAnchor, constant: 16).isActive = true
-
+        
         //Для лаков
         likesLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16).isActive = true
         likesLabel.leadingAnchor.constraint(equalTo: postContentView.leadingAnchor, constant: 16).isActive = true
         likesLabel.bottomAnchor.constraint(equalTo: postContentView.bottomAnchor, constant: -36).isActive = true
-
+        
         //Для просмотров
         viewsLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16).isActive = true
         viewsLabel.trailingAnchor.constraint(equalTo: postContentView.trailingAnchor, constant:  -16).isActive = true
         viewsLabel.bottomAnchor.constraint(equalTo: postContentView.bottomAnchor, constant: -36).isActive = true
     }
-
+    
     private let tapLikeLabel = UITapGestureRecognizer()
     var likedDelegate: TapLikedDelegate?
-
+    
     private func setupGesture() {
         self.tapLikeLabel.addTarget(self, action: #selector(self.tapLike(_:)))
         self.likesLabel.addGestureRecognizer(self.tapLikeLabel)
     }
-
+    
     @objc private func tapLike(_ gestureRecognizer: UITapGestureRecognizer) {
         guard self.tapLikeLabel === gestureRecognizer else { return }
         if let postNumber = self.postNumber {

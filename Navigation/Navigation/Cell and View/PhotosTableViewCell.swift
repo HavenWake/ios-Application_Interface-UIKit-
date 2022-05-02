@@ -30,7 +30,7 @@ class PhotosTableViewCell: UITableViewCell {
         photoCellLabel.addGestureRecognizer(tap)
         return photoCellLabel
     }()
-
+    
     @objc func tapLiked() {
         print("Good")
     }
@@ -46,7 +46,6 @@ class PhotosTableViewCell: UITableViewCell {
     lazy var firstPhotoImageView: UIImageView = {
         let firstPhotoImageView = UIImageView()
         firstPhotoImageView.translatesAutoresizingMaskIntoConstraints = false
-        //firstPhotoImageView.contentMode = .scaleAspectFit
         firstPhotoImageView.clipsToBounds = true
         firstPhotoImageView.layer.cornerRadius = 6
         return firstPhotoImageView
@@ -55,7 +54,6 @@ class PhotosTableViewCell: UITableViewCell {
     lazy var secondPhotoImageView: UIImageView = {
         let secondPhotoImageView = UIImageView()
         secondPhotoImageView.translatesAutoresizingMaskIntoConstraints = false
-        //secondPhotoImageView.contentMode = .scaleAspectFit
         secondPhotoImageView.clipsToBounds = true
         secondPhotoImageView.layer.cornerRadius = 6
         return secondPhotoImageView
@@ -64,7 +62,6 @@ class PhotosTableViewCell: UITableViewCell {
     lazy var thirdPhotoImageView: UIImageView = {
         let thirdPhotoImageView = UIImageView()
         thirdPhotoImageView.translatesAutoresizingMaskIntoConstraints = false
-        //thirdPhotoImageView.contentMode = .scaleAspectFit
         thirdPhotoImageView.clipsToBounds = true
         thirdPhotoImageView.layer.cornerRadius = 6
         return thirdPhotoImageView
@@ -73,7 +70,6 @@ class PhotosTableViewCell: UITableViewCell {
     lazy var fourthPhotoImageView: UIImageView = {
         let fourthPhotoImageView = UIImageView()
         fourthPhotoImageView.translatesAutoresizingMaskIntoConstraints = false
-        //fourthPhotoImageView.contentMode = .scaleAspectFit
         fourthPhotoImageView.clipsToBounds = true
         fourthPhotoImageView.layer.cornerRadius = 6
         return fourthPhotoImageView
@@ -119,6 +115,6 @@ class PhotosTableViewCell: UITableViewCell {
         fourthPhotoImageView.bottomAnchor.constraint(equalTo: firstPhotoImageView.bottomAnchor).isActive = true
         fourthPhotoImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant:  -12).isActive = true
         fourthPhotoImageView.heightAnchor.constraint(equalTo: fourthPhotoImageView.widthAnchor).isActive = true
-
+        
     }
 }
