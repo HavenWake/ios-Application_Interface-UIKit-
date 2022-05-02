@@ -28,6 +28,9 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         
         backgroundColor = .systemGray5
     }
+
+    ///recognizer
+    let tapGestureRecognizer = UITapGestureRecognizer()
     
     func setupConstraint() {
         //Для кнопки установки статуса
@@ -81,6 +84,8 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     lazy var avatarImageView: UIImageView = {
         let avatarImageView = UIImageView()
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView.isUserInteractionEnabled = true
+        avatarImageView.addGestureRecognizer(self.tapGestureRecognizer)
         avatarImageView.layer.borderWidth = 3
         avatarImageView.layer.borderColor = UIColor.white.cgColor
         avatarImageView.layer.cornerRadius = 50
