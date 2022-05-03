@@ -25,13 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return UINavigationController(rootViewController: feedViewController)
     }
     
-    func createGestureViewController() -> UINavigationController {
-        let createGestureViewController = GestureViewController()
-        createGestureViewController.title = "Жесты"
-        createGestureViewController.tabBarItem = UITabBarItem(title: "Жесты", image: UIImage(systemName: "wand.and.stars"), tag: 2)
-        return UINavigationController(rootViewController: createGestureViewController)
-    }
-    
+
     func createLogInViewController() -> UINavigationController {
         let logInViewController = LogInViewController()
         logInViewController.title = "Профиль"
@@ -42,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func createTabBarController() -> UITabBarController {
         let tabBarController = UITabBarController()
         UITabBar.appearance().backgroundColor = .white
-        tabBarController.viewControllers = [createFeedViewController(), createLogInViewController(), createGestureViewController()]
+        tabBarController.viewControllers = [createFeedViewController(), createLogInViewController()]
         return tabBarController
     }
 }
