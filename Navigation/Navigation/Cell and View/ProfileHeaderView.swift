@@ -9,16 +9,6 @@ import UIKit
 
 class ProfileHeaderView: UITableViewHeaderFooterView {
     
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
-        setupView()
-        setupConstraint()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     var avatarWidthConstraint: NSLayoutConstraint!
     var avatarHeightConstraint: NSLayoutConstraint!
     var avatarLeadingAnchorConstraint: NSLayoutConstraint!
@@ -29,48 +19,8 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     var tappedAvatarWidthConstraint: NSLayoutConstraint!
     var tappedAvatarHeightConstraint: NSLayoutConstraint!
     
-    func setupView() {
-        contentView.addSubview(fullNameLabel)
-        contentView.addSubview(statusLabel)
-        contentView.addSubview(avatarImageView)
-        contentView.addSubview(setStatusButton)
-        contentView.addSubview(statusTextField)
-        
-        backgroundColor = .systemGray5
-    }
-    
     ///recognizer
     let tapGestureRecognizer = UITapGestureRecognizer() 
-    
-    func setupConstraint() {
-        //Для кнопки установки статуса
-        setStatusButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 46).isActive = true
-        setStatusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
-        setStatusButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
-        setStatusButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        setStatusButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-        
-        //Для лейбла с именем
-        fullNameLabel.topAnchor.constraint(equalTo:  contentView.topAnchor, constant: 27).isActive = true
-        fullNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
-        fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 20).isActive = true
-        
-        avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
-        avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
-        avatarImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        avatarImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        //Для лейбла со статусом
-        statusLabel.bottomAnchor.constraint(equalTo: statusTextField.topAnchor, constant: -16).isActive = true
-        statusLabel.trailingAnchor.constraint(equalTo: fullNameLabel.trailingAnchor).isActive = true
-        statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 20).isActive = true
-        
-        //Для текстфилда статуса
-        statusTextField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -16).isActive = true
-        statusTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
-        statusTextField.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 20).isActive = true
-        statusTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
     
     lazy var fullNameLabel: UILabel = {
         let fullNameLabel = UILabel()
@@ -120,19 +70,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return setStatusButton
     }()
     
-    @objc func buttonPressed() {
-        if statusTextField.text?.isEmpty == true {
-            statusTextField.layer.borderColor = UIColor.systemRed.cgColor
-            statusTextField.placeholder = "Required to enter a status"
-        }
-        else {
-            statusTextField.layer.borderColor = UIColor.black.cgColor
-            statusLabel.text = statusText
-            statusTextField.text = ""
-            statusTextField.placeholder = "What is new?"
-        }
-    }
-    
     lazy var statusTextField: UITextField = {
         let statusTextField = UITextField()
         statusTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -152,9 +89,72 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     
     private var statusText = ""
     
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        setupView()
+        setupConstraint()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     @objc func statusTextChanged(_ textField: UITextField) {
         if let text = statusTextField.text {
             statusText = text
         }
+    }
+    
+    @objc func buttonPressed() {
+        if statusTextField.text?.isEmpty == true {
+            statusTextField.layer.borderColor = UIColor.systemRed.cgColor
+            statusTextField.placeholder = "Required to enter a status"
+        }
+        else {
+            statusTextField.layer.borderColor = UIColor.black.cgColor
+            statusLabel.text = statusText
+            statusTextField.text = ""
+            statusTextField.placeholder = "What is new?"
+        }
+    }
+    
+    func setupView() {
+        contentView.addSubview(fullNameLabel)
+        contentView.addSubview(statusLabel)
+        contentView.addSubview(avatarImageView)
+        contentView.addSubview(setStatusButton)
+        contentView.addSubview(statusTextField)
+        
+        backgroundColor = .systemGray5
+    }
+    
+    func setupConstraint() {
+        //Для кнопки установки статуса
+        setStatusButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 46).isActive = true
+        setStatusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
+        setStatusButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
+        setStatusButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        setStatusButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
+        
+        //Для лейбла с именем
+        fullNameLabel.topAnchor.constraint(equalTo:  contentView.topAnchor, constant: 27).isActive = true
+        fullNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
+        fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 20).isActive = true
+        
+        avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
+        avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
+        avatarImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        avatarImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        //Для лейбла со статусом
+        statusLabel.bottomAnchor.constraint(equalTo: statusTextField.topAnchor, constant: -16).isActive = true
+        statusLabel.trailingAnchor.constraint(equalTo: fullNameLabel.trailingAnchor).isActive = true
+        statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 20).isActive = true
+        
+        //Для текстфилда статуса
+        statusTextField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -16).isActive = true
+        statusTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
+        statusTextField.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 20).isActive = true
+        statusTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 }

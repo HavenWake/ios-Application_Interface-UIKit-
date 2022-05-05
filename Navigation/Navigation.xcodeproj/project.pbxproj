@@ -63,13 +63,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		811D977B27F47B8D00022B18 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Profile;
-			sourceTree = "<group>";
-		};
 		819DD170281A6BF800DDC7A8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,7 +121,6 @@
 				819DD171281A6C0E00DDC7A8 /* Cell and View */,
 				819DD170281A6BF800DDC7A8 /* Controller */,
 				81DD45E428196EC4004460D4 /* Protocol */,
-				811D977B27F47B8D00022B18 /* Profile */,
 				81D6562B27F354AC0036F469 /* Post.swift */,
 				81D6561127F33DA40036F469 /* AppDelegate.swift */,
 				81D6561A27F33DA40036F469 /* Assets.xcassets */,

@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         feedViewController.tabBarItem = UITabBarItem(title: "Лента", image: UIImage(systemName: "newspaper"), tag: 0)
         return UINavigationController(rootViewController: feedViewController)
     }
-    
 
     func createLogInViewController() -> UINavigationController {
         let logInViewController = LogInViewController()

@@ -9,17 +9,6 @@ import UIKit
 
 class PhotosTableViewCell: UITableViewCell {
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super .init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .white
-        setupView()
-        setupConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     lazy var photoCellLabel: UILabel = {
         photoCellLabel = UILabel()
         photoCellLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -30,10 +19,6 @@ class PhotosTableViewCell: UITableViewCell {
         photoCellLabel.addGestureRecognizer(tap)
         return photoCellLabel
     }()
-    
-    @objc func tapLiked() {
-        print("Good")
-    }
     
     lazy var rightArrowLabel: UILabel = {
         rightArrowLabel = UILabel()
@@ -75,6 +60,21 @@ class PhotosTableViewCell: UITableViewCell {
         return fourthPhotoImageView
     }()
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super .init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .white
+        setupView()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func tapLiked() {
+        print("Good")
+    }
+    
     func setupView() {
         addSubview(photoCellLabel)
         addSubview(rightArrowLabel)
@@ -92,7 +92,6 @@ class PhotosTableViewCell: UITableViewCell {
         
         rightArrowLabel.centerYAnchor.constraint(equalTo: photoCellLabel.centerYAnchor).isActive = true
         rightArrowLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
-        
         
         // Для фото
         firstPhotoImageView.topAnchor.constraint(equalTo: photoCellLabel.bottomAnchor, constant: 12).isActive = true

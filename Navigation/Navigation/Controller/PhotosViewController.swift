@@ -63,16 +63,6 @@ class PhotosViewController: UIViewController {
         return closeButton
     }()
     
-    @objc private func closePicture() {
-        self.isFullPhoto = false
-        UIView.animate(withDuration: 0.5, animations: {
-            self.fullPhotoImageView.frame = self.isFullPhoto ? UIScreen.main.bounds:self.endFrame
-            self.view.layoutIfNeeded()
-            self.transparentView.alpha = 0
-            self.closeButton.alpha = 0
-        }, completion: {_ in self.fullPhotoImageView.alpha = 0})
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Photo Gallery"
@@ -88,6 +78,16 @@ class PhotosViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    @objc private func closePicture() {
+        self.isFullPhoto = false
+        UIView.animate(withDuration: 0.5, animations: {
+            self.fullPhotoImageView.frame = self.isFullPhoto ? UIScreen.main.bounds:self.endFrame
+            self.view.layoutIfNeeded()
+            self.transparentView.alpha = 0
+            self.closeButton.alpha = 0
+        }, completion: {_ in self.fullPhotoImageView.alpha = 0})
     }
     
     func setupViews() {

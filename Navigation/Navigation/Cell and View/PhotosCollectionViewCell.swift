@@ -10,19 +10,7 @@ import UIKit
 class PhotosCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "photoCell"
-    
-    override init(frame: CGRect) {
-        super .init(frame: frame)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(photoImageView)
-        setupConstraint()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
+
     lazy var photoImageView: UIImageView = {
         let photoImageView = UIImageView()
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,6 +18,17 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         photoImageView.layer.cornerRadius = 6
         return photoImageView
     }()
+
+    override init(frame: CGRect) {
+        super .init(frame: frame)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(photoImageView)
+        setupConstraint()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func setupConstraint() {
         photoImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true

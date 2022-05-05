@@ -14,24 +14,6 @@ class FullPostView: UIView {
     
     var fullPost: PostModel?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-        addSubview(postScrollView)
-        postScrollView.addSubview(postContentView)
-        postContentView.addSubview(autorLabel)
-        postContentView.addSubview(descriptionLabel)
-        postContentView.addSubview(pictureImageView)
-        postContentView.addSubview(likesLabel)
-        postContentView.addSubview(viewsLabel)
-        
-        setupConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     private var likeTapGesture = UITapGestureRecognizer()
     var likedDelegate: TapLikedDelegate?
     
@@ -87,7 +69,7 @@ class FullPostView: UIView {
         }
         return pictureImageView
     }()
-
+    
     lazy var likesLabel: UILabel = {
         let likesLabel = UILabel()
         likesLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -103,11 +85,6 @@ class FullPostView: UIView {
     }()
     
     var isLike = false
-    @objc func tapLiked() {
-        print("Tapp Like")
-        isLike = true
-        likedDelegate?.tapLikedLabel()
-    }
     
     lazy var viewsLabel: UILabel = {
         let viewsLabel = UILabel()
@@ -119,6 +96,30 @@ class FullPostView: UIView {
         }
         return viewsLabel
     }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubview(postScrollView)
+        postScrollView.addSubview(postContentView)
+        postContentView.addSubview(autorLabel)
+        postContentView.addSubview(descriptionLabel)
+        postContentView.addSubview(pictureImageView)
+        postContentView.addSubview(likesLabel)
+        postContentView.addSubview(viewsLabel)
+        
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func tapLiked() {
+        print("Tapp Like")
+        isLike = true
+        likedDelegate?.tapLikedLabel()
+    }
     
     func setupConstraints() {
         

@@ -9,25 +9,11 @@ import UIKit
 
 class FullPostViewController: UIViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationItem.title = "Пост"
-        self.navigationItem.backButtonTitle = "Назад"
-        self.navigationController?.navigationBar.prefersLargeTitles = false
-        self.navigationController?.navigationBar.isHidden = false
-        
-        setupView()
-        setupConstraints()
-        setupGesture()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
-    
     var postAuthor, postDescription, postImage: String?
     var postLikes, postViews, postNumber: Int?
+    
+    private let tapLikeLabel = UITapGestureRecognizer()
+    var likedDelegate: TapLikedDelegate?
     
     private lazy var postScrollView: UIScrollView = {
         let postScrollView = UIScrollView()
@@ -104,6 +90,23 @@ class FullPostViewController: UIViewController {
         return viewsLabel
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationItem.title = "Пост"
+        self.navigationItem.backButtonTitle = "Назад"
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationController?.navigationBar.isHidden = false
+        
+        setupView()
+        setupConstraints()
+        setupGesture()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     private func setupView() {
         self.view.backgroundColor = .white
         self.view.addSubview(postScrollView)
@@ -116,7 +119,6 @@ class FullPostViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        
         //Скролл вью
         postScrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         postScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -154,9 +156,6 @@ class FullPostViewController: UIViewController {
         viewsLabel.trailingAnchor.constraint(equalTo: postContentView.trailingAnchor, constant:  -16).isActive = true
         viewsLabel.bottomAnchor.constraint(equalTo: postContentView.bottomAnchor, constant: -36).isActive = true
     }
-    
-    private let tapLikeLabel = UITapGestureRecognizer()
-    var likedDelegate: TapLikedDelegate?
     
     private func setupGesture() {
         self.tapLikeLabel.addTarget(self, action: #selector(self.tapLike(_:)))

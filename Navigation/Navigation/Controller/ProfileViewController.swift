@@ -9,9 +9,15 @@ import UIKit
 
 class ProfileViewController: UIViewController, TapLikedDelegate {
     
-    func tapLikedLabel() {
-        self.profileTableView.reloadData()
-    }
+    var isLike = false
+    
+    private var avatarXConstraint: NSLayoutConstraint?
+    private var avatarYConstraint: NSLayoutConstraint?
+    private var avatarWidthConstraint: NSLayoutConstraint?
+    private var avatarHeightConstraint: NSLayoutConstraint?
+    private var avatarTopConstraint: NSLayoutConstraint?
+    private var avatarLeadingConstraint: NSLayoutConstraint?
+    private var avatarTrallingConstraint: NSLayoutConstraint?
     
     lazy var profileTableView: UITableView = {
         let profileTableView = UITableView()
@@ -62,19 +68,6 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
         return closeButton
     }()
     
-    @objc private func closePicture() {
-        UIView.animate(withDuration: 0.3, animations: {
-            self.closeButton.alpha = 0.0
-        }) { _ in
-            self.decreaseAvatarConstraint()
-            UIView.animate(withDuration: 0.5, animations: {
-                self.view.layoutIfNeeded()
-                self.transparentView.alpha = 0
-                self.fullAvatarImageView.alpha = 0
-            }
-            )}
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -90,6 +83,24 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
         super.viewDidLoad()
         setupView()
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    func tapLikedLabel() {
+        isLike = true
+        self.profileTableView.reloadData()
+    }
+    
+    @objc private func closePicture() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.closeButton.alpha = 0.0
+        }) { _ in
+            self.decreaseAvatarConstraint()
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.layoutIfNeeded()
+                self.transparentView.alpha = 0
+                self.fullAvatarImageView.alpha = 0
+            }
+            )}
     }
     
     private func setupView() {
@@ -119,14 +130,6 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
         
         self.decreaseAvatarConstraint()
     }
-    
-    private var avatarXConstraint: NSLayoutConstraint?
-    private var avatarYConstraint: NSLayoutConstraint?
-    private var avatarWidthConstraint: NSLayoutConstraint?
-    private var avatarHeightConstraint: NSLayoutConstraint?
-    private var avatarTopConstraint: NSLayoutConstraint?
-    private var avatarLeadingConstraint: NSLayoutConstraint?
-    private var avatarTrallingConstraint: NSLayoutConstraint?
     
     private func decreaseAvatarConstraint() {
         self.avatarTopConstraint = fullAvatarImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 38)
@@ -198,11 +201,9 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             
             postCell.likedDelegate = self
             
-            if postCell.isLike {
-                posts[indexPath.row].likes -= 1
-            }
-            else {
+            if isLike {
                 posts[indexPath.row].likes += 1
+                isLike = false
             }
             
             let post = posts[indexPath.row]

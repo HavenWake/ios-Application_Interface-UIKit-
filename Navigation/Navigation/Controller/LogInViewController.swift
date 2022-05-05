@@ -8,69 +8,18 @@
 import UIKit
 
 class LogInViewController: UIViewController {
-    //Обработка появлений клавиатуры
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // подписаться на уведомления
-        let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(kbdShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        nc.addObserver(self, selector: #selector(kbdHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        // отписаться от уведомлений
-        let nc = NotificationCenter.default
-        nc.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        nc.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    // Изменение отступов при появлении клавиатуры
-    @objc private func kbdShow(notification: NSNotification) {
-        if let kbdSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.logInScrollView.contentInset.bottom = kbdSize.height
-            self.logInScrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbdSize.height, right: 0)
-        }
-    }
-    
-    @objc private func kbdHide(notification: NSNotification) {
-        self.logInScrollView.contentInset.bottom = .zero
-        self.logInScrollView.verticalScrollIndicatorInsets = .zero
-    }
-    
-    @objc func kdbHideOnTap() {
-        passwordTextField.resignFirstResponder()
-        logInTextField.resignFirstResponder()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = .white
-        self.navigationController?.isNavigationBarHidden = true
-        self.view.addSubview(self.logInScrollView)
-        self.logInScrollView.addSubview(self.logInContentView)
-        self.logInContentView.addSubview(self.authorizationStackView)
-        self.logInContentView.addSubview(self.alertPasswordLabel)
-        self.logInContentView.addSubview(self.logInButton)
-        self.logInContentView.addSubview(self.logoImageView)
-        setupConstraint()
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(kdbHideOnTap))
-        self.view.addGestureRecognizer(tapGesture)
-    }
     
     private lazy var logInScrollView: UIScrollView = {
         let logInScrollView = UIScrollView()
         logInScrollView.backgroundColor = .white
         logInScrollView.translatesAutoresizingMaskIntoConstraints = false
         return logInScrollView
-        
     }()
     
     private lazy var logInContentView: UIView = {
         let logInContentView = UIView()
         logInContentView.backgroundColor = .white
         logInContentView.translatesAutoresizingMaskIntoConstraints = false
-        
         return logInContentView
     }()
     
@@ -99,28 +48,6 @@ class LogInViewController: UIViewController {
         return logInButton
     }()
     
-    @objc func successfulLogin() {
-        if logInTextField.text == defaultLogin, passwordTextField.text == defaultPassword {
-            let profileViewController = ProfileViewController()
-            self.navigationController?.pushViewController(profileViewController, animated: true)
-        }
-        else {
-            let alert = UIAlertController(title: "Авторизация не выполнена", message: "Неверный логин или пароль", preferredStyle: .alert)
-            let okButton = UIAlertAction(title: "OK", style: .cancel) { (action) in print("wrong login")}
-            alert.addAction(okButton)
-            present(alert, animated:  true, completion: nil)
-        }
-        if logInTextField.text?.isEmpty == true {
-            logInTextField.layer.borderColor = UIColor.systemRed.cgColor
-            logInTextField.layer.borderWidth = 2
-        }
-        if passwordTextField.text?.isEmpty == true {
-            passwordTextField.layer.borderColor = UIColor.systemRed.cgColor
-            passwordTextField.layer.borderWidth = 2
-        }
-    }
-    
-    
     private lazy var logInTextField: UITextField = {
         let logInTextField = UITextField()
         logInTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -141,12 +68,6 @@ class LogInViewController: UIViewController {
         return logInTextField
     }()
     
-    @objc func loginTextEditBegin(_ textField: UITextField) {
-        logInTextField.text = ""
-        logInTextField.backgroundColor = .systemGray6
-        logInTextField.textColor = .black
-    }
-    
     private lazy var passwordTextField: UITextField = {
         let passwordTextField = UITextField()
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -166,24 +87,6 @@ class LogInViewController: UIViewController {
         passwordTextField.returnKeyType = .done
         return passwordTextField
     }()
-    
-    @objc func passwordEditBegin(_ textField: UITextField) {
-        passwordTextField.text = ""
-        passwordTextField.backgroundColor = .systemGray6
-        passwordTextField.isSecureTextEntry = true
-    }
-    
-    @objc func passwordTextChanged(_ textField: UITextField) {
-        if let minimumSymbols = passwordTextField.text?.count {
-            if minimumSymbols > 0, minimumSymbols < 4 {
-                alertPasswordLabel.alpha = 1
-                alertPasswordLabel.text = "Пароль не может быть менее 4 символов!"
-            }
-            else {
-                alertPasswordLabel.alpha = 0
-            }
-        }
-    }
     
     private lazy var authorizationStackView: UIStackView = {
         let authorizationStackView = UIStackView()
@@ -220,6 +123,100 @@ class LogInViewController: UIViewController {
     private let defaultLogin = "admin"
     private let defaultPassword = "admin"
     
+    //Обработка появлений клавиатуры
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // подписаться на уведомления
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(kbdShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        nc.addObserver(self, selector: #selector(kbdHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // отписаться от уведомлений
+        let nc = NotificationCenter.default
+        nc.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        nc.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .white
+        self.navigationController?.isNavigationBarHidden = true
+        self.view.addSubview(self.logInScrollView)
+        self.logInScrollView.addSubview(self.logInContentView)
+        self.logInContentView.addSubview(self.authorizationStackView)
+        self.logInContentView.addSubview(self.alertPasswordLabel)
+        self.logInContentView.addSubview(self.logInButton)
+        self.logInContentView.addSubview(self.logoImageView)
+        setupConstraint()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(kdbHideOnTap))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    // Изменение отступов при появлении клавиатуры
+    @objc private func kbdShow(notification: NSNotification) {
+        if let kbdSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.logInScrollView.contentInset.bottom = kbdSize.height
+            self.logInScrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbdSize.height, right: 0)
+        }
+    }
+    
+    @objc private func kbdHide(notification: NSNotification) {
+        self.logInScrollView.contentInset.bottom = .zero
+        self.logInScrollView.verticalScrollIndicatorInsets = .zero
+    }
+    
+    @objc func kdbHideOnTap() {
+        passwordTextField.resignFirstResponder()
+        logInTextField.resignFirstResponder()
+    }
+    
+    @objc func successfulLogin() {
+        if logInTextField.text == defaultLogin, passwordTextField.text == defaultPassword {
+            let profileViewController = ProfileViewController()
+            self.navigationController?.pushViewController(profileViewController, animated: true)
+        }
+        else {
+            let alert = UIAlertController(title: "Авторизация не выполнена", message: "Неверный логин или пароль", preferredStyle: .alert)
+            let okButton = UIAlertAction(title: "OK", style: .cancel) { (action) in print("wrong login")}
+            alert.addAction(okButton)
+            present(alert, animated:  true, completion: nil)
+        }
+        if logInTextField.text?.isEmpty == true {
+            logInTextField.layer.borderColor = UIColor.systemRed.cgColor
+            logInTextField.layer.borderWidth = 2
+        }
+        if passwordTextField.text?.isEmpty == true {
+            passwordTextField.layer.borderColor = UIColor.systemRed.cgColor
+            passwordTextField.layer.borderWidth = 2
+        }
+    }
+    
+    @objc func loginTextEditBegin(_ textField: UITextField) {
+        logInTextField.text = ""
+        logInTextField.backgroundColor = .systemGray6
+        logInTextField.textColor = .black
+    }
+    
+    @objc func passwordEditBegin(_ textField: UITextField) {
+        passwordTextField.text = ""
+        passwordTextField.backgroundColor = .systemGray6
+        passwordTextField.isSecureTextEntry = true
+    }
+    
+    @objc func passwordTextChanged(_ textField: UITextField) {
+        if let minimumSymbols = passwordTextField.text?.count {
+            if minimumSymbols > 0, minimumSymbols < 4 {
+                alertPasswordLabel.alpha = 1
+                alertPasswordLabel.text = "Пароль не может быть менее 4 символов!"
+            }
+            else {
+                alertPasswordLabel.alpha = 0
+            }
+        }
+    }
     
     private func setupConstraint() {
         //для authorizationStackView

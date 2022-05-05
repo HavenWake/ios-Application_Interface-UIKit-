@@ -8,17 +8,7 @@
 import UIKit
 
 class InfoViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemMint
-        view.addSubview(self.alertButton)
-        self.alertButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
-        self.alertButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -120).isActive = true
-        self.alertButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
-        self.alertButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-    }
-    
+
     private lazy var alertButton: UIButton = {
         let alertButton = UIButton()
         alertButton.backgroundColor = .black
@@ -37,6 +27,16 @@ class InfoViewController: UIViewController {
         alert.addAction(yesButton)
         alert.addAction(noButton)
         present(alert, animated:  true, completion: nil)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemMint
+        view.addSubview(self.alertButton)
+        self.alertButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
+        self.alertButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -120).isActive = true
+        self.alertButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
+        self.alertButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
 }

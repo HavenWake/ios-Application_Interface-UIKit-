@@ -9,16 +9,6 @@ import UIKit
 
 class PostTableViewCell: UITableViewCell {
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupView()
-        setupConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     lazy var autorLabel: UILabel = {
         let autorLabel = UILabel()
         autorLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -61,11 +51,6 @@ class PostTableViewCell: UITableViewCell {
     private var likeTapGesture = UITapGestureRecognizer()
     var likedDelegate: TapLikedDelegate?
     
-    var isLike = false
-    @objc func tapLiked() {
-        likedDelegate?.tapLikedLabel()
-    }
-    
     lazy var viewsLabel: UILabel = {
         let viewsLabel = UILabel()
         viewsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -73,6 +58,20 @@ class PostTableViewCell: UITableViewCell {
         viewsLabel.textColor = .black
         return viewsLabel
     }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupView()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func tapLiked() {
+        likedDelegate?.tapLikedLabel()
+    }
     
     func setupView() {
         contentView.addSubview(autorLabel)
